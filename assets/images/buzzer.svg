@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <!-- Black Circular Buzzer Body -->
+  <circle cx="40" cy="38" r="30" fill="#1e293b" stroke="#0f172a" stroke-width="3" />
+  <circle cx="40" cy="38" r="24" fill="#334155" />
+  <circle cx="40" cy="38" r="8" fill="#0f172a" />
+  <!-- Plus (+) polarity sign -->
+  <text x="20" y="24" font-family="Arial" font-size="12" font-weight="bold" fill="#ef4444">+</text>
+  <!-- Pins -->
+  <rect x="30" y="68" width="4" height="10" fill="#9ca3af" />
+  <rect x="46" y="68" width="4" height="10" fill="#9ca3af" />
+</svg>

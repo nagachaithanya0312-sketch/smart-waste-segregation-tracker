@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 100" width="130" height="100">
+  <!-- Green WET WASTE Dustbin -->
+  <g transform="translate(10, 10)">
+    <!-- Wheels -->
+    <circle cx="8" cy="78" r="6" fill="#334155" />
+    <circle cx="34" cy="78" r="6" fill="#334155" />
+    <!-- Bin Body -->
+    <path d="M6 18 L36 18 L32 75 L10 75 Z" fill="#16a34a" stroke="#15803d" stroke-width="2" />
+    <!-- Lid -->
+    <rect x="3" y="12" width="36" height="7" rx="3" fill="#15803d" />
+    <rect x="15" y="8" width="12" height="5" rx="2" fill="#15803d" />
+    <!-- Recycle Symbol -->
+    <path d="M21 35 L26 43 L16 43 Z" fill="#ffffff" opacity="0.9" />
+    <text x="21" y="58" font-family="Arial" font-size="7" font-weight="bold" fill="#ffffff" text-anchor="middle">WET</text>
+  </g>
+
+  <!-- Blue DRY WASTE Dustbin -->
+  <g transform="translate(70, 10)">
+    <!-- Wheels -->
+    <circle cx="8" cy="78" r="6" fill="#334155" />
+    <circle cx="34" cy="78" r="6" fill="#334155" />
+    <!-- Bin Body -->
+    <path d="M6 18 L36 18 L32 75 L10 75 Z" fill="#2563eb" stroke="#1d4ed8" stroke-width="2" />
+    <!-- Lid -->
+    <rect x="3" y="12" width="36" height="7" rx="3" fill="#1d4ed8" />
+    <rect x="15" y="8" width="12" height="5" rx="2" fill="#1d4ed8" />
+    <!-- Recycle Symbol -->
+    <path d="M21 35 L26 43 L16 43 Z" fill="#ffffff" opacity="0.9" />
+    <text x="21" y="58" font-family="Arial" font-size="7" font-weight="bold" fill="#ffffff" text-anchor="middle">DRY</text>
+  </g>
+</svg>

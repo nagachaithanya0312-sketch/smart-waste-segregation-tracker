@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <rect width="200" height="200" rx="30" fill="#10b981" fill-opacity="0.1"/>
+  <!-- Green Bin -->
+  <rect x="65" y="70" width="70" height="100" rx="10" fill="#10b981"/>
+  <rect x="55" y="58" width="90" height="15" rx="5" fill="#059669"/>
+  <path d="M100 25 C75 25 65 45 65 60 L135 60 C135 45 125 25 100 25 Z" fill="#34d399"/>
+  <!-- Banana / Leaf icon -->
+  <path d="M90 100 C90 100 100 120 120 120 C110 130 90 120 90 100 Z" fill="#fbbf24"/>
+  <text x="100" y="150" font-family="Arial" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">GREEN BIN</text>
+</svg>

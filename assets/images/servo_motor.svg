@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="100" height="90">
+  <!-- Blue Plastic Body -->
+  <rect x="20" y="25" width="60" height="45" rx="4" fill="#2563eb" stroke="#1d4ed8" stroke-width="2" />
+  <!-- Mounting Flanges -->
+  <rect x="10" y="35" width="80" height="8" rx="2" fill="#1e40af" />
+  <circle cx="14" cy="39" r="2.5" fill="#ffffff" />
+  <circle cx="86" cy="39" r="2.5" fill="#ffffff" />
+  <!-- Top Gear Shaft Cylinder -->
+  <circle cx="40" cy="25" r="12" fill="#1d4ed8" />
+  <circle cx="40" cy="25" r="7" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" />
+  <!-- Servo Horn / Arm -->
+  <path d="M40 25 L75 15 A 5 5 0 0 1 78 22 L44 30 Z" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" />
+  <circle cx="68" cy="19" r="1.5" fill="#64748b" />
+  <!-- Cable -->
+  <path d="M50 70 Q50 85 30 85" stroke="#f59e0b" stroke-width="3" fill="none" />
+  <path d="M53 70 Q53 85 33 85" stroke="#ef4444" stroke-width="3" fill="none" />
+  <path d="M47 70 Q47 85 27 85" stroke="#1e293b" stroke-width="3" fill="none" />
+</svg>

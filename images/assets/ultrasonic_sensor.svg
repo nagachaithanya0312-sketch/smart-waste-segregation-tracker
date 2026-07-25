@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" width="120" height="80">
+  <!-- Blue PCB -->
+  <rect x="10" y="15" width="100" height="50" rx="6" fill="#1d4ed8" stroke="#1e40af" stroke-width="2" />
+  <circle cx="16" cy="21" r="3" fill="#ffffff" />
+  <circle cx="104" cy="21" r="3" fill="#ffffff" />
+  <circle cx="16" cy="59" r="3" fill="#ffffff" />
+  <circle cx="104" cy="59" r="3" fill="#ffffff" />
+  <!-- Transmitter (T) Cylinder -->
+  <circle cx="38" cy="40" r="18" fill="#94a3b8" stroke="#475569" stroke-width="2" />
+  <circle cx="38" cy="40" r="13" fill="#cbd5e1" />
+  <text x="38" y="44" font-family="Arial" font-size="10" font-weight="bold" fill="#334155" text-anchor="middle">T</text>
+  <!-- Receiver (R) Cylinder -->
+  <circle cx="82" cy="40" r="18" fill="#94a3b8" stroke="#475569" stroke-width="2" />
+  <circle cx="82" cy="40" r="13" fill="#cbd5e1" />
+  <text x="82" y="44" font-family="Arial" font-size="10" font-weight="bold" fill="#334155" text-anchor="middle">R</text>
+  <!-- Crystal Oscillator -->
+  <rect x="56" y="22" width="8" height="14" rx="2" fill="#cbd5e1" stroke="#64748b" />
+  <!-- 4 Header Pins -->
+  <rect x="48" y="65" width="3" height="10" fill="#f59e0b" />
+  <rect x="53" y="65" width="3" height="10" fill="#f59e0b" />
+  <rect x="58" y="65" width="3" height="10" fill="#f59e0b" />
+  <rect x="63" y="65" width="3" height="10" fill="#f59e0b" />
+</svg>

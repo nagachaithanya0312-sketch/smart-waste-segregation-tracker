@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 70" width="120" height="70">
+  <!-- Green PCB -->
+  <rect x="5" y="5" width="110" height="60" rx="4" fill="#15803d" stroke="#166534" stroke-width="2" />
+  <circle cx="10" cy="10" r="2.5" fill="#d1d5db" />
+  <circle cx="110" cy="10" r="2.5" fill="#d1d5db" />
+  <circle cx="10" cy="60" r="2.5" fill="#d1d5db" />
+  <circle cx="110" cy="60" r="2.5" fill="#d1d5db" />
+  <!-- LCD Screen Frame -->
+  <rect x="18" y="12" width="84" height="42" fill="#0f172a" rx="2" />
+  <!-- Bright Yellow/Green LCD Backlight Screen -->
+  <rect x="22" y="16" width="76" height="34" fill="#84cc16" />
+  <!-- Text Lines on LCD -->
+  <text x="26" y="30" font-family="monospace" font-size="9" font-weight="bold" fill="#0f172a">WASTE: ORGANIC</text>
+  <text x="26" y="44" font-family="monospace" font-size="9" font-weight="bold" fill="#0f172a">BIN: GREEN BIN</text>
+</svg>

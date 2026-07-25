@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Waste Segregation Tracker | AI Inspired Waste Classification</title>
+    <meta name="description" content="A modern AI-inspired waste segregation tracker for college project presentation. Classify waste into Organic, Plastic, Paper, Glass, Hazardous, and E-Waste bins.">
+            <!-- Bulletproof CSS Links (Works in Flask, Local Static, Live Server, & GitHub Pages) -->
+    <link rel="stylesheet" href="static/vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/vendor/css/all.min.css">
+    <link rel="stylesheet" href="static/vendor/css/animate.min.css">
+    <link rel="stylesheet" href="../static/vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/vendor/css/all.min.css">
+    <link rel="stylesheet" href="static/vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/vendor/css/all.min.css">
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Particle Background -->
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fa-solid fa-recycle"></i> SmartWaste Tracker
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <li class="nav-item"><a class="nav-link active" href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="working.html"><i class="fa-solid fa-diagram-project"></i> Working & Diagrams</a></li>
+                    <li class="nav-item"><a class="nav-link" href="applications.html"><i class="fa-solid fa-city"></i> Applications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="future.html"><i class="fa-solid fa-rocket"></i> Future Scope</a></li>
+                    <li class="nav-item"><a class="nav-link" href="conclusion.html"><i class="fa-solid fa-circle-check"></i> Conclusion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html"><i class="fa-solid fa-circle-info"></i> About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="working.html#pythonCodeSection"><i class="fa-brands fa-python text-success me-1"></i> Python Code</a></li>
+
+                    <li class="nav-item ms-lg-2">
+                        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section container">
+        <div class="row align-items-center gy-4">
+            <div class="col-lg-6">
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold mb-3">
+                    <i class="fa-solid fa-leaf"></i> Python Flask Mini Project (No Database)
+                </span>
+                <h1 class="hero-title">
+                    Smart Waste <br><span>Segregation Tracker</span>
+                </h1>
+                <div class="typing-container">
+                    <span id="typingText"></span><span class="typing-cursor"></span>
+                </div>
+                <p class="text-secondary fs-5 mb-4">
+                    Automate household and industrial waste sorting. Powered by pure Python dictionary classification logic without external database dependencies.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#searchSection" class="btn-eco-primary">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i> Start Detection
+                    </a>
+                    <a href="working.html#pythonCodeSection" class="btn-eco-outline border-0 bg-transparent text-decoration-none d-inline-flex align-items-center gap-2">
+                        <i class="fa-brands fa-python text-success"></i> View Python Code
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="hero-img-wrapper">
+                    <img src="static/images/hero.svg" onerror="this.onerror=null; this.src='static/images/hero.svg'; if(!this.src) this.src='images/hero.svg';" alt="Smart Waste Segregation Illustration" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section container" id="searchSection">
+        <div class="glass-panel p-4 p-md-5 text-center">
+            <h2 class="fw-bold mb-2"><i class="fa-solid fa-magnifying-glass text-emerald"></i> Waste Item Classifier</h2>
+            <p class="text-secondary mb-4">Type any item (e.g. <i>banana peel, plastic bottle, battery, laptop</i>) to check bin assignment.</p>
+
+            <div class="search-box-wrapper">
+                <input type="text" id="wasteSearchInput" class="search-input" placeholder="Enter waste item... (e.g., apple, milk packet, charger)" autocomplete="off">
+                <button type="button" id="wasteSearchBtn" class="search-btn" title="Classify Item">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="quick-tags">
+                <span class="text-muted small align-self-center me-2"><i class="fa-solid fa-bolt"></i> Try Quick Examples:</span>
+                <button class="tag-btn" data-item="banana peel">🍌 Banana Peel</button>
+                <button class="tag-btn" data-item="plastic bottle">🍾 Plastic Bottle</button>
+                <button class="tag-btn" data-item="newspaper">📰 Newspaper</button>
+                <button class="tag-btn" data-item="glass bottle">🍾 Glass Bottle</button>
+                <button class="tag-btn" data-item="battery">🔋 Battery</button>
+                <button class="tag-btn" data-item="laptop">💻 Laptop</button>
+            </div>
+
+            <!-- Dynamic Search Result Card -->
+            <div id="searchResultCard" class="result-card glass-panel p-4 text-start mt-4">
+                <div class="row align-items-center gy-3">
+                    <div class="col-auto">
+                        <i id="resIcon" class="fa-solid fa-leaf display-4 text-emerald"></i>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-1">
+                            <h4 class="fw-bold mb-0 text-capitalize" id="resQuery">Item Name</h4>
+                            <div id="resBinBadge" class="bin-badge bin-green">
+                                <i class="fa-solid fa-box"></i> Green Bin
+                            </div>
+                        </div>
+                        <h5 class="fw-bold text-emerald mb-2" id="resCategory">Organic Waste</h5>
+                        <p class="mb-0 text-secondary" id="resInstruction">Compost it or place in Green Bin</p>
+                    </div>
+                </div>
+                <div id="unknownAlert" class="alert alert-warning border-0 mt-3 d-none mb-0">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>Unknown Item Notice:</strong> Item not found in pre-indexed dictionary. Sent for AI manual classification audit.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Categories Grid -->
+    <section class="container my-5">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-bold mb-2">Primary Categories</span>
+            <h2 class="fw-bold">Waste Segregation Categories</h2>
+            <p class="text-secondary">Understanding standard dustbin color codes and disposal procedures.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- 1. Organic Waste -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card category-card">
+                    <div class="category-icon-wrapper" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2">Organic Waste</h4>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill w-fit mb-3">Green Bin</span>
+                    <p class="text-secondary small mb-3">Biodegradable kitchen waste, food scraps, and plant materials converted into nutrient-rich compost.</p>
+                    <div class="examples-badge-group">
+                        <span class="example-chip">Banana Peel</span>
+                        <span class="example-chip">Apple</span>
+                        <span class="example-chip">Vegetable Waste</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Plastic Waste -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card category-card">
+                    <div class="category-icon-wrapper" style="background: linear-gradient(135deg, #2193b0, #6dd5ed);">
+                        <i class="fa-solid fa-bottle-water"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2">Plastic Waste</h4>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill w-fit mb-3">Blue Bin</span>
+                    <p class="text-secondary small mb-3">Non-biodegradable synthetic polymers. Requires cleaning and compaction prior to recycling.</p>
+                    <div class="examples-badge-group">
+                        <span class="example-chip">Plastic Bottle</span>
+                        <span class="example-chip">Milk Packet</span>
+                        <span class="example-chip">Plastic Cover</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Paper Waste -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card category-card">
+                    <div class="category-icon-wrapper" style="background: linear-gradient(135deg, #4b6cb7, #182848);">
+                        <i class="fa-solid fa-newspaper"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2">Paper Waste</h4>
+                    <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill w-fit mb-3">Blue Bin</span>
+                    <p class="text-secondary small mb-3">Dry paper, cartons, and corrugated boxes suitable for pulping and paper remanufacturing.</p>
+                    <div class="examples-badge-group">
+                        <span class="example-chip">Newspaper</span>
+                        <span class="example-chip">Paper</span>
+                        <span class="example-chip">Cardboard</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Glass Waste -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card category-card">
+                    <div class="category-icon-wrapper" style="background: linear-gradient(135deg, #00b4db, #0083b0);">
+                        <i class="fa-solid fa-wine-bottle"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2">Glass Waste</h4>
+                    <span class="badge bg-teal-subtle text-info border border-info-subtle rounded-pill w-fit mb-3">Glass Bin</span>
+                    <p class="text-secondary small mb-3">Infinitely recyclable glass containers, jars, and bottles. Rinse before safe disposal.</p>
+                    <div class="examples-badge-group">
+                        <span class="example-chip">Glass Bottle</span>
+                        <span class="example-chip">Glass Jars</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Hazardous Waste -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card category-card">
+                    <div class="category-icon-wrapper" style="background: linear-gradient(135deg, #cb2d3e, #ef473a);">
+                        <i class="fa-solid fa-biohazard"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2">Hazardous Waste</h4>
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill w-fit mb-3">Red Bin</span>
+                    <p class="text-secondary small mb-3">Toxic chemicals, batteries, and expired pharmaceuticals requiring specialized sanitary incineration.</p>
+                    <div class="examples-badge-group">
+                        <span class="example-chip">Battery</span>
+                        <span class="example-chip">Medicine</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. E-Waste -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card category-card">
+                    <div class="category-icon-wrapper" style="background: linear-gradient(135deg, #f857a6, #ff5858);">
+                        <i class="fa-solid fa-laptop"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2">E-Waste</h4>
+                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill w-fit mb-3">E-Waste Bin</span>
+                    <p class="text-secondary small mb-3">Discarded electronics containing heavy metals (Lead, Cadmium). Route to certified e-waste hubs.</p>
+                    <div class="examples-badge-group">
+                        <span class="example-chip">Mobile</span>
+                        <span class="example-chip">Laptop</span>
+                        <span class="example-chip">Charger</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Animated Statistics Section -->
+    <section class="container my-5 py-4" id="statsSection">
+        <div class="glass-panel p-4 p-md-5">
+            <div class="row g-4">
+                <div class="col-6 col-md-3">
+                    <div class="stat-box">
+                        <div class="stat-number counter-value" data-target="16">0</div>
+                        <div class="stat-label">Core Database Items</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-box">
+                        <div class="stat-number counter-value" data-target="6">0</div>
+                        <div class="stat-label">Bin Categories</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-box">
+                        <div class="stat-number counter-value" data-target="99">0</div>
+                        <div class="stat-label">Accuracy Rate %</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-box">
+                        <div class="stat-number counter-value" data-target="12845">0</div>
+                        <div class="stat-label">kg CO₂ Offset Saved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PYTHON CODE MODAL -->
+    <div class="modal fade" id="pythonCodeModal" tabindex="-1" aria-labelledby="pythonCodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content glass-panel border-0 text-start shadow-lg">
+                <div class="modal-header border-bottom border-glass pb-3">
+                    <h5 class="modal-title fw-bold text-success d-flex align-items-center gap-2" id="pythonCodeModalLabel">
+                        <i class="fa-brands fa-python text-emerald fs-4"></i>
+                        <span>Smart Waste Segregation Tracker &mdash; Python Code & Explanation</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3 p-md-4">
+                    <div class="row g-4">
+                        <!-- Left Column: Code -->
+                        <div class="col-lg-6">
+                            <div class="code-column-wrapper h-100 d-flex flex-column">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold">
+                                        <i class="fa-solid fa-code me-1"></i> Python Code (CLI Mini Project)
+                                    </span>
+                                    <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold" id="copyPythonCodeBtn">
+                                        <i class="fa-solid fa-copy me-1"></i> Copy Code
+                                    </button>
+                                </div>
+                                <div class="position-relative flex-grow-1 bg-dark rounded-4 p-3 border border-secondary border-opacity-25 shadow-sm" style="min-height: 460px;">
+                                    <pre class="m-0 text-light font-monospace small" id="pythonCodeBlock" style="max-height: 520px; overflow-y: auto; white-space: pre-wrap; font-family: 'Fira Code', 'Cascadia Code', Consolas, Monaco, monospace; line-height: 1.5;"><code># ============================================
+# SMART WASTE SEGREGATION TRACKER
+# Mini Project
+# Language: Python
+# ============================================
+
+# Waste database
+waste_data = {
+    "banana peel": ("Organic Waste", "Green Bin", "Compost it"),
+    "apple": ("Organic Waste", "Green Bin", "Compost it"),
+    "vegetable waste": ("Organic Waste", "Green Bin", "Compost it"),
+
+    "plastic bottle": ("Plastic Waste", "Blue Bin", "Recycle it"),
+    "milk packet": ("Plastic Waste", "Blue Bin", "Recycle it"),
+    "plastic cover": ("Plastic Waste", "Blue Bin", "Recycle it"),
+
+    "newspaper": ("Paper Waste", "Blue Bin", "Recycle it"),
+    "paper": ("Paper Waste", "Blue Bin", "Recycle it"),
+    "cardboard": ("Paper Waste", "Blue Bin", "Recycle it"),
+
+    "glass bottle": ("Glass Waste", "Glass Bin", "Recycle it"),
+    "glass": ("Glass Waste", "Glass Bin", "Recycle it"),
+
+    "battery": ("Hazardous Waste", "Red Bin", "Dispose safely"),
+    "medicine": ("Hazardous Waste", "Red Bin", "Dispose safely"),
+
+    "mobile": ("E-Waste", "E-Waste Bin", "Send to E-Waste Center"),
+    "laptop": ("E-Waste", "E-Waste Bin", "Send to E-Waste Center"),
+    "charger": ("E-Waste", "E-Waste Bin", "Send to E-Waste Center"),
+}
+
+print("=" * 50)
+print("      SMART WASTE SEGREGATION TRACKER")
+print("=" * 50)
+
+while True:
+
+    item = input("\nEnter Waste Item: ").lower().strip()
+
+    found = False
+
+    # Simple NLP (Keyword Matching)
+    for key in waste_data:
+        if key in item or item in key:
+            category, bin_name, instruction = waste_data[key]
+
+            print("\nWaste Category :", category)
+            print("Dustbin        :", bin_name)
+            print("Instruction    :", instruction)
+
+            found = True
+            break
+
+    if not found:
+        print("\nWaste item not found.")
+        print("Please dispose according to your local waste management rules.")
+
+    choice = input("\nDo you want to check another item? (yes/no): ").lower()
+
+    if choice != "yes":
+        print("\nThank you for using Smart Waste Segregation Tracker.")
+        break</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Code Explanation -->
+                        <div class="col-lg-6">
+                            <div class="explanation-column-wrapper h-100 d-flex flex-column">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-pill fw-bold">
+                                        <i class="fa-solid fa-lightbulb me-1"></i> Technical Explanation
+                                    </span>
+                                </div>
+                                <div class="explanation-scroll-container flex-grow-1 pe-2" style="max-height: 520px; overflow-y: auto;">
+                                    
+                                    <!-- Overview Card -->
+                                    <div class="glass-card p-3 mb-3 border-start border-4 border-emerald">
+                                        <h6 class="fw-bold text-emerald mb-1"><i class="fa-solid fa-circle-info me-2"></i>Project Overview</h6>
+                                        <p class="small text-secondary mb-0">
+                                            This Python script is a standalone command-line application designed for smart waste classification. It operates using an in-memory dictionary data structure and bidirectional keyword matching without requiring external database dependencies.
+                                        </p>
+                                    </div>
+
+                                    <!-- Step 1 Explanation -->
+                                    <div class="glass-card p-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">1</span>
+                                            <h6 class="fw-bold mb-0">Waste Database Dictionary (`waste_data`)</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-2">
+                                            Stores waste items mapped to 3-element tuples containing classification details:
+                                        </p>
+                                        <ul class="small text-secondary mb-0 ps-3">
+                                            <li><b>Waste Category</b>: Organic, Plastic, Paper, Glass, Hazardous, or E-Waste.</li>
+                                            <li><b>Dustbin</b>: Target bin color (Green, Blue, Red, Glass, E-Waste Bin).</li>
+                                            <li><b>Instruction</b>: Actionable guidance (Compost, Recycle, Send to E-Waste Center).</li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Step 2 Explanation -->
+                                    <div class="glass-card p-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">2</span>
+                                            <h6 class="fw-bold mb-0">Formatted Header Banner</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-0">
+                                            Uses <code>print("=" * 50)</code> to create visual separator lines and print a clear title banner for console presentations.
+                                        </p>
+                                    </div>
+
+                                    <!-- Step 3 Explanation -->
+                                    <div class="glass-card p-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">3</span>
+                                            <h6 class="fw-bold mb-0">Interactive Loop (`while True`) & Input Cleaning</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-0">
+                                            Runs an infinite loop accepting user queries. The input string is normalized using <code>.lower().strip()</code> to make input matching case-insensitive and trim extra spaces.
+                                        </p>
+                                    </div>
+
+                                    <!-- Step 4 Explanation -->
+                                    <div class="glass-card p-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">4</span>
+                                            <h6 class="fw-bold mb-0">Simple NLP Keyword Matching Loop</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-2">
+                                            Iterates over database keys checking substring presence in both directions:
+                                        </p>
+                                        <div class="bg-dark text-success p-2 rounded small font-monospace mb-2">
+                                            if key in item or item in key:
+                                        </div>
+                                        <p class="small text-secondary mb-0">
+                                            Matches user entries like <i>"used plastic bottle"</i> or <i>"paper"</i> accurately, unpacks tuple values, displays results, and breaks the loop.
+                                        </p>
+                                    </div>
+
+                                    <!-- Step 5 Explanation -->
+                                    <div class="glass-card p-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">5</span>
+                                            <h6 class="fw-bold mb-0">Fallback Handling (`if not found`)</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-0">
+                                            If an item is not in the database, notifies the user and suggests referring to local municipal waste disposal rules.
+                                        </p>
+                                    </div>
+
+                                    <!-- Step 6 Explanation -->
+                                    <div class="glass-card p-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">6</span>
+                                            <h6 class="fw-bold mb-0">Continuation Check & Exit</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-0">
+                                            Asks <code>Do you want to check another item? (yes/no)</code>. If response is not <code>"yes"</code>, prints a exit message and breaks out of the loop.
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-glass pt-3">
+                    <span class="me-auto text-muted small"><i class="fa-solid fa-code text-success me-1"></i> Python 3.8+ CLI Mini Project | Dual Code & Technical Breakdown</span>
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row gy-4 mb-4">
+                <div class="col-lg-5">
+                    <h5 class="fw-bold text-emerald mb-3"><i class="fa-solid fa-recycle"></i> Smart Waste Segregation Tracker</h5>
+                    <p class="text-secondary small">An AI-inspired eco initiative designed for college mini project presentation and municipal smart waste management systems.</p>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><a href="index.html" class="footer-link">Home</a></li>
+                        <li class="mb-2"><a href="working.html" class="footer-link">Working & Diagrams</a></li>
+                        <li class="mb-2"><a href="applications.html" class="footer-link">Applications</a></li>
+                        <li class="mb-2"><a href="future.html" class="footer-link">Future Scope</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-6">
+                    <h6 class="fw-bold mb-3">Academic Context</h6>
+                    <p class="text-secondary small mb-2">Backend: Python Flask (No DB Required)</p>
+                    <p class="text-secondary small mb-2">Frontend: HTML5 + CSS3 + Bootstrap 5</p>
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="#" class="social-icon" title="Python"><i class="fa-brands fa-python"></i></a>
+                        <a href="#" class="social-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="social-icon" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-glass my-3">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 text-secondary small">
+                <div>© 2026 Smart Waste Segregation Tracker. All Rights Reserved.</div>
+                <div>Made with <i class="fa-solid fa-heart text-danger"></i> for Eco-Sustainability</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTopBtn" title="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+        <!-- Bulletproof JS Links -->
+    <script src="static/vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="static/vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="static/js/script.js"></script>
+    <script src="../static/js/script.js"></script>
+    <script src="static/js/script.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

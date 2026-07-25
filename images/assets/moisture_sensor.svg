@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- PCB Base -->
+  <rect x="25" y="10" width="50" height="35" rx="4" fill="#1e3a8a" />
+  <circle cx="32" cy="17" r="2.5" fill="#f59e0b" />
+  <circle cx="32" cy="27" r="2.5" fill="#ef4444" />
+  <!-- Potentiometer -->
+  <rect x="45" y="16" width="14" height="14" rx="2" fill="#3b82f6" />
+  <circle cx="52" cy="23" r="4" fill="#ffffff" />
+  <!-- Pins -->
+  <rect x="68" y="18" width="12" height="3" fill="#d1d5db" />
+  <rect x="68" y="24" width="12" height="3" fill="#d1d5db" />
+  <rect x="68" y="30" width="12" height="3" fill="#d1d5db" />
+  <!-- Probe Prongs -->
+  <rect x="33" y="45" width="8" height="48" rx="2" fill="#9ca3af" />
+  <rect x="59" y="45" width="8" height="48" rx="2" fill="#9ca3af" />
+  <!-- Gold Traces on Probe -->
+  <line x1="37" y1="48" x2="37" y2="88" stroke="#fbbf24" stroke-width="2" />
+  <line x1="63" y1="48" x2="63" y2="88" stroke="#fbbf24" stroke-width="2" />
+  <!-- Moisture Droplets -->
+  <path d="M50 60 Q50 52 46 63 Q50 70 54 63 Z" fill="#38bdf8" />
+</svg>

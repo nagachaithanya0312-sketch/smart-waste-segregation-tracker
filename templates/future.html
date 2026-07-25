@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Scope & AI Innovations | Smart Waste Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bulletproof CSS Links (Works in Flask, Local Static, Live Server, & GitHub Pages) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/css/animate.min.css') }}">
+    <link rel="stylesheet" href="../static/vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/vendor/css/all.min.css">
+    <link rel="stylesheet" href="static/vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/vendor/css/all.min.css">
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <i class="fa-solid fa-recycle"></i> SmartWaste Tracker
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('working') }}"><i class="fa-solid fa-diagram-project"></i> Working & Diagrams</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('applications') }}"><i class="fa-solid fa-city"></i> Applications</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('future') }}"><i class="fa-solid fa-rocket"></i> Future Scope</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('conclusion') }}"><i class="fa-solid fa-circle-check"></i> Conclusion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}"><i class="fa-solid fa-circle-info"></i> About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('working') }}#pythonCodeSection"><i class="fa-brands fa-python text-success me-1"></i> Python Code</a></li>
+                    <li class="nav-item ms-lg-2">
+                        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="container my-5">
+        <div class="glass-panel p-4 p-md-5 text-center">
+            <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 rounded-pill fw-bold mb-2">Next-Gen Enhancements</span>
+            <h1 class="fw-bold display-5">Future Scope & AI Innovations</h1>
+            <p class="text-secondary max-w-700 mx-auto">Exploring deep learning computer vision, IoT smart dustbins, voice recognition, and real-time carbon offset calculators.</p>
+        </div>
+    </div>
+
+    <!-- Interactive AI Camera & Voice Simulators Section -->
+    <div class="container my-5">
+        <div class="row g-4">
+            
+            <!-- AI Camera Vision Simulator Card -->
+            <div class="col-lg-6">
+                <div class="glass-panel p-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h4 class="fw-bold mb-0"><i class="fa-solid fa-camera text-primary me-2"></i> AI Camera Vision Simulator</h4>
+                            <span class="badge bg-primary">Computer Vision</span>
+                        </div>
+                        <p class="text-secondary small mb-3">Simulate real-time camera feed classification using Convolutional Neural Networks (YOLOv8 / ResNet50 / Gemini Vision).</p>
+                        
+                        <div class="cam-viewfinder-box p-4 text-center text-white position-relative" id="camViewfinderBox">
+                            <!-- HUD Corner Reticles -->
+                            <div class="cam-hud-corner cam-hud-tl"></div>
+                            <div class="cam-hud-corner cam-hud-tr"></div>
+                            <div class="cam-hud-corner cam-hud-bl"></div>
+                            <div class="cam-hud-corner cam-hud-br"></div>
+
+                            <!-- Animated Laser Scan Beam -->
+                            <div class="cam-scanner-line" id="camScannerLine"></div>
+
+                            <div id="camOverlayBox" class="w-100 py-3">
+                                <div class="mb-2">
+                                    <i class="fa-solid fa-expand display-2 text-secondary opacity-25"></i>
+                                </div>
+                                <span class="text-muted fw-bold d-block mb-1"><i class="fa-solid fa-video me-1"></i> Camera Simulator Ready</span>
+                                <small class="text-secondary">Click "Scan Object" to detect waste samples</small>
+                            </div>
+                            <small class="text-muted position-absolute bottom-0 mb-2" id="camStatusText">System Status: Standby</small>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button class="btn btn-primary w-100 rounded-pill fw-bold py-2 shadow-sm" id="startCamSimBtn">
+                            <i class="fa-solid fa-aperture me-1"></i> Scan Object
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Voice Recognition Assistant Card -->
+            <div class="col-lg-6">
+                <div class="glass-panel p-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h4 class="fw-bold mb-0"><i class="fa-solid fa-microphone text-emerald me-2"></i> Voice Recognition Assistant</h4>
+                            <span class="badge bg-success">Speech API</span>
+                        </div>
+                        <p class="text-secondary small mb-2">Hands-free voice recognition allowing workers or visually impaired citizens to speak item names aloud.</p>
+
+                        <!-- Language Selector -->
+                        <div class="mb-3 d-flex align-items-center gap-2">
+                            <label for="voiceLangSelect" class="form-label small text-muted mb-0 fw-bold"><i class="fa-solid fa-language text-emerald"></i> Language:</label>
+                            <select class="form-select form-select-sm border-glass rounded-3" id="voiceLangSelect" style="max-width: 220px; background-color: var(--bg-glass);">
+                                <option value="en-US" selected>English (en-US)</option>
+                                <option value="te-IN">Telugu (te-IN)</option>
+                                <option value="hi-IN">Hindi (hi-IN)</option>
+                                <option value="es-ES">Spanish (es-ES)</option>
+                                <option value="fr-FR">French (fr-FR)</option>
+                            </select>
+                        </div>
+
+                        <!-- Voice Viewfinder / Display Box -->
+                        <div class="border border-glass rounded-4 p-4 text-center bg-glass-card position-relative d-flex flex-column align-items-center justify-content-center" style="min-height: 220px;">
+                            
+                            <!-- Mic Pulse Icon -->
+                            <div class="mic-pulse-btn mb-2" id="micPulseContainer">
+                                <i class="fa-solid fa-microphone-lines" id="micIconMain"></i>
+                            </div>
+
+                            <!-- Soundwave Equalizer -->
+                            <div class="audio-equalizer mb-2" id="audioEqualizer">
+                                <div class="eq-bar"></div>
+                                <div class="eq-bar"></div>
+                                <div class="eq-bar"></div>
+                                <div class="eq-bar"></div>
+                                <div class="eq-bar"></div>
+                            </div>
+
+                            <div id="voiceOverlayBox" class="w-100">
+                                <h6 class="fw-bold mb-1" id="voiceHeading">Web Speech API Integration</h6>
+                                <p class="text-secondary small mb-0" id="voiceTranscript">Click "Start Listening" and speak clearly into your mic.</p>
+                            </div>
+                            <small class="text-muted mt-2" id="voiceStatusText">Status: Speech engine ready</small>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <div class="row g-2">
+                            <div class="col-7">
+                                <button class="btn btn-success w-100 rounded-pill fw-bold py-2 shadow-sm" id="startVoiceSimBtn">
+                                    <i class="fa-solid fa-microphone me-1"></i> Start Listening
+                                </button>
+                            </div>
+                            <div class="col-5">
+                                <button class="btn btn-outline-danger w-100 rounded-pill fw-bold py-2" id="stopVoiceSimBtn" disabled>
+                                    <i class="fa-solid fa-microphone-slash me-1"></i> Stop
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sample Audio Query Chips -->
+                        <div class="mt-2 d-flex align-items-center gap-1 flex-wrap">
+                            <small class="text-muted me-1 small">Or try sample voice:</small>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill voice-sample-chip cursor-pointer px-2 py-1" data-sample="Banana Peel">🍌 Banana Peel</span>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill voice-sample-chip cursor-pointer px-2 py-1" data-sample="Plastic Bottle">🍾 Plastic Bottle</span>
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill voice-sample-chip cursor-pointer px-2 py-1" data-sample="Battery">🔋 Battery</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Future Roadmap Grid Cards -->
+    <div class="container my-5">
+        <h3 class="fw-bold mb-4"><i class="fa-solid fa-cubes-stacked text-primary me-2"></i> Planned Roadmap Features</h3>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card p-4 h-100">
+                    <div class="text-primary display-6 mb-3"><i class="fa-solid fa-brain"></i></div>
+                    <h5 class="fw-bold mb-2">Deep Learning Vision</h5>
+                    <p class="text-secondary small mb-0">Training custom CNN models on TrashNet dataset to recognize damaged or crushed items automatically.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card p-4 h-100">
+                    <div class="text-emerald display-6 mb-3"><i class="fa-solid fa-wifi"></i></div>
+                    <h5 class="fw-bold mb-2">IoT Smart Dustbin</h5>
+                    <p class="text-secondary small mb-0">Integration with ESP32/Raspberry Pi microcontrollers, ultrasonic fill sensors, and automated servo bin lids.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card p-4 h-100">
+                    <div class="text-warning display-6 mb-3"><i class="fa-solid fa-robot"></i></div>
+                    <h5 class="fw-bold mb-2">Robotic Sorting Arm</h5>
+                    <p class="text-secondary small mb-0">Pneumatic robotic actuators sorting conveyer belt items in high-speed material recovery facilities.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card p-4 h-100">
+                    <div class="text-info display-6 mb-3"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <h5 class="fw-bold mb-2">Native Android & iOS App</h5>
+                    <p class="text-secondary small mb-0">Cross-platform React Native app with barcode scanner, local bin maps, and citizen eco-rewards system.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card p-4 h-100">
+                    <div class="text-danger display-6 mb-3"><i class="fa-solid fa-location-dot"></i></div>
+                    <h5 class="fw-bold mb-2">GPS Waste Fleet Tracking</h5>
+                    <p class="text-secondary small mb-0">Real-time GPS tracking for garbage collection trucks, optimizing fuel consumption and pickup schedules.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="glass-card p-4 h-100">
+                    <div class="text-purple display-6 mb-3" style="color:#a855f7;"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <h5 class="fw-bold mb-2">Cloud Analytics Dashboard</h5>
+                    <p class="text-secondary small mb-0">Local storage and cloud analytics providing city administrators with monthly waste audit heatmaps.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Carbon Footprint Calculator Section -->
+    <div class="container my-5">
+        <div class="glass-panel p-4 p-md-5 calc-container text-center">
+            <h3 class="fw-bold mb-2"><i class="fa-solid fa-calculator text-emerald"></i> Interactive Carbon Offset Calculator</h3>
+            <p class="text-secondary small mb-4">Drag the slider to calculate the environmental savings from segregating household waste.</p>
+
+            <div class="mb-4">
+                <label for="wasteKgInput" class="form-label fw-bold">Monthly Segregated Waste: <span id="wasteKgDisplay" class="text-emerald fs-4">25</span> kg</label>
+                <input type="range" class="form-range custom-range" id="wasteKgInput" min="5" max="250" value="25" step="5">
+            </div>
+
+            <div class="row g-3">
+                <div class="col-4">
+                    <div class="p-3 border border-glass rounded-3 bg-glass-card">
+                        <div class="text-emerald fs-3 fw-bold" id="co2SavedRes">62.5 kg</div>
+                        <div class="text-muted small">CO₂ Prevented</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="p-3 border border-glass rounded-3 bg-glass-card">
+                        <div class="text-primary fs-3 fw-bold" id="treesSavedRes">1.0 Trees</div>
+                        <div class="text-muted small">Trees Equivalent</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="p-3 border border-glass rounded-3 bg-glass-card">
+                        <div class="text-warning fs-3 fw-bold" id="energySavedRes">95.0 kWh</div>
+                        <div class="text-muted small">Energy Saved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PYTHON CODE MODAL -->
+    <div class="modal fade" id="pythonCodeModal" tabindex="-1" aria-labelledby="pythonCodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content glass-panel border-0 text-start shadow-lg">
+                <div class="modal-header border-bottom border-glass pb-3">
+                    <h5 class="modal-title fw-bold text-success d-flex align-items-center gap-2" id="pythonCodeModalLabel">
+                        <i class="fa-brands fa-python text-emerald fs-4"></i>
+                        <span>Smart Waste Segregation Tracker &mdash; Python Code & Explanation</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3 p-md-4">
+                    <div class="row g-4">
+                        <!-- Left Column: Code -->
+                        <div class="col-lg-6">
+                            <div class="code-column-wrapper h-100 d-flex flex-column">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold">
+                                        <i class="fa-solid fa-code me-1"></i> Python Code (CLI Mini Project)
+                                    </span>
+                                    <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold" id="copyPythonCodeBtn">
+                                        <i class="fa-solid fa-copy me-1"></i> Copy Code
+                                    </button>
+                                </div>
+                                <div class="position-relative flex-grow-1 bg-dark rounded-4 p-3 border border-secondary border-opacity-25 shadow-sm" style="min-height: 460px;">
+                                    <pre class="m-0 text-light font-monospace small" id="pythonCodeBlock" style="max-height: 520px; overflow-y: auto; white-space: pre-wrap; font-family: 'Fira Code', 'Cascadia Code', Consolas, Monaco, monospace; line-height: 1.5;"><code># ============================================
+# SMART WASTE SEGREGATION TRACKER
+# Mini Project
+# Language: Python
+# ============================================
+
+# Waste database
+waste_data = {
+    "banana peel": ("Organic Waste", "Green Bin", "Compost it"),
+    "apple": ("Organic Waste", "Green Bin", "Compost it"),
+    "vegetable waste": ("Organic Waste", "Green Bin", "Compost it"),
+
+    "plastic bottle": ("Plastic Waste", "Blue Bin", "Recycle it"),
+    "milk packet": ("Plastic Waste", "Blue Bin", "Recycle it"),
+    "plastic cover": ("Plastic Waste", "Blue Bin", "Recycle it"),
+
+    "newspaper": ("Paper Waste", "Blue Bin", "Recycle it"),
+    "paper": ("Paper Waste", "Blue Bin", "Recycle it"),
+    "cardboard": ("Paper Waste", "Blue Bin", "Recycle it"),
+
+    "glass bottle": ("Glass Waste", "Glass Bin", "Recycle it"),
+    "glass": ("Glass Waste", "Glass Bin", "Recycle it"),
+
+    "battery": ("Hazardous Waste", "Red Bin", "Dispose safely"),
+    "medicine": ("Hazardous Waste", "Red Bin", "Dispose safely"),
+
+    "mobile": ("E-Waste", "E-Waste Bin", "Send to E-Waste Center"),
+    "laptop": ("E-Waste", "E-Waste Bin", "Send to E-Waste Center"),
+    "charger": ("E-Waste", "E-Waste Bin", "Send to E-Waste Center"),
+}
+
+print("=" * 50)
+print("      SMART WASTE SEGREGATION TRACKER")
+print("=" * 50)
+
+while True:
+
+    item = input("\nEnter Waste Item: ").lower().strip()
+
+    found = False
+
+    # Simple NLP (Keyword Matching)
+    for key in waste_data:
+        if key in item or item in key:
+            category, bin_name, instruction = waste_data[key]
+
+            print("\nWaste Category :", category)
+            print("Dustbin        :", bin_name)
+            print("Instruction    :", instruction)
+
+            found = True
+            break
+
+    if not found:
+        print("\nWaste item not found.")
+        print("Please dispose according to your local waste management rules.")
+
+    choice = input("\nDo you want to check another item? (yes/no): ").lower()
+
+    if choice != "yes":
+        print("\nThank you for using Smart Waste Segregation Tracker.")
+        break</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Code Explanation -->
+                        <div class="col-lg-6">
+                            <div class="explanation-column-wrapper h-100 d-flex flex-column">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-pill fw-bold">
+                                        <i class="fa-solid fa-lightbulb me-1"></i> Technical Explanation
+                                    </span>
+                                </div>
+                                <div class="explanation-scroll-container flex-grow-1 pe-2" style="max-height: 520px; overflow-y: auto;">
+                                    
+                                    <!-- Overview Card -->
+                                    <div class="glass-card p-3 mb-3 border-start border-4 border-emerald">
+                                        <h6 class="fw-bold text-emerald mb-1"><i class="fa-solid fa-circle-info me-2"></i>Project Overview</h6>
+                                        <p class="small text-secondary mb-0">
+                                            This Python script is a standalone command-line application designed for smart waste classification. It operates using an in-memory dictionary data structure and bidirectional keyword matching without requiring external database dependencies.
+                                        </p>
+                                    </div>
+
+                                    <!-- Step 1 Explanation -->
+                                    <div class="glass-card p-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">1</span>
+                                            <h6 class="fw-bold mb-0">Waste Database Dictionary (`waste_data`)</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-2">
+                                            Stores waste items mapped to 3-element tuples containing classification details:
+                                        </p>
+                                        <ul class="small text-secondary mb-0 ps-3">
+                                            <li><b>Waste Category</b>: Organic, Plastic, Paper, Glass, Hazardous, or E-Waste.</li>
+                                            <li><b>Dustbin</b>: Target bin color (Green, Blue, Red, Glass, E-Waste Bin).</li>
+                                            <li><b>Instruction</b>: Actionable guidance (Compost, Recycle, Send to E-Waste Center).</li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Step 2 Explanation -->
+                                    <div class="glass-card p-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">2</span>
+                                            <h6 class="fw-bold mb-0">Formatted Header Banner</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-0">
+                                            Uses <code>print("=" * 50)</code> to create visual separator lines and print a clear title banner for console presentations.
+                                        </p>
+                                    </div>
+
+                                    <!-- Step 3 Explanation -->
+                                    <div class="glass-card p-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">3</span>
+                                            <h6 class="fw-bold mb-0">Interactive Loop (`while True`) & Input Cleaning</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-0">
+                                            Runs an infinite loop accepting user queries. The input string is normalized using <code>.lower().strip()</code> to make input matching case-insensitive and trim extra spaces.
+                                        </p>
+                                    </div>
+
+                                    <!-- Step 4 Explanation -->
+                                    <div class="glass-card p-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">4</span>
+                                            <h6 class="fw-bold mb-0">Simple NLP Keyword Matching Loop</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-2">
+                                            Iterates over database keys checking substring presence in both directions:
+                                        </p>
+                                        <div class="bg-dark text-success p-2 rounded small font-monospace mb-2">
+                                            if key in item or item in key:
+                                        </div>
+                                        <p class="small text-secondary mb-0">
+                                            Matches user entries like <i>"used plastic bottle"</i> or <i>"paper"</i> accurately, unpacks tuple values, displays results, and breaks the loop.
+                                        </p>
+                                    </div>
+
+                                    <!-- Step 5 Explanation -->
+                                    <div class="glass-card p-3 mb-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">5</span>
+                                            <h6 class="fw-bold mb-0">Fallback Handling (`if not found`)</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-0">
+                                            If an item is not in the database, notifies the user and suggests referring to local municipal waste disposal rules.
+                                        </p>
+                                    </div>
+
+                                    <!-- Step 6 Explanation -->
+                                    <div class="glass-card p-3">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">6</span>
+                                            <h6 class="fw-bold mb-0">Continuation Check & Exit</h6>
+                                        </div>
+                                        <p class="small text-secondary mb-0">
+                                            Asks <code>Do you want to check another item? (yes/no)</code>. If response is not <code>"yes"</code>, prints a exit message and breaks out of the loop.
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-glass pt-3">
+                    <span class="me-auto text-muted small"><i class="fa-solid fa-code text-success me-1"></i> Python 3.8+ CLI Mini Project | Dual Code & Technical Breakdown</span>
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center text-secondary small">
+            <p class="mb-0">© 2026 Smart Waste Segregation Tracker - Academic Mini Project</p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTopBtn"><i class="fa-solid fa-arrow-up"></i></button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
