@@ -10,7 +10,7 @@ replacements = [
     (r"\{\{\s*url_for\('future'\)\s*\}\}", "future.html"),
     (r"\{\{\s*url_for\('conclusion'\)\s*\}\}", "conclusion.html"),
     (r"\{\{\s*url_for\('about'\)\s*\}\}", "about.html"),
-    (r"\{\{\s*url_for\('static',\s*filename=['\"](.*?)['\"]\)\s*\}\}", r"static/\1"),
+    (r"\{\{\s*url_for\('static',\s*filename=['\"](.*?)['\"]\)\s*\}\}", r"\1"),
 ]
 
 for fname in files:
@@ -27,4 +27,3 @@ for fname in files:
         print(f"Fixed and synced root {fname} from templates/{fname}")
 
 print("All static HTML files cleaned and synced!")
-
