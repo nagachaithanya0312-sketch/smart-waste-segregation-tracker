@@ -198,7 +198,11 @@ function initSearchEngine() {
 
     function executeLocalSearch(query) {
         const q = query.trim().toLowerCase();
+        
+        // 1. Exact Match
         let matched = local_waste_data[q];
+        
+        // 2. Substring Match
         if (!matched) {
             for (const k in local_waste_data) {
                 if (k.includes(q) || q.includes(k)) {
@@ -207,6 +211,41 @@ function initSearchEngine() {
                 }
             }
         }
+        
+        // 3. Generic Keyword Fallback (Identical to Python Backend)
+        if (!matched) {
+            const generic_keywords = {
+                "organic": ["Organic Waste", "Green Bin", "Compost it"],
+                "wet": ["Wet Waste", "Green Bin", "Compost or place in organic bin"],
+                "food": ["Wet Waste", "Green Bin", "Compost or place in organic bin"],
+                "fruit": ["Organic Waste", "Green Bin", "Compost it"],
+                "peel": ["Organic Waste", "Green Bin", "Compost it"],
+                "plastic": ["Plastic Waste", "Blue Bin", "Clean, dry, and send for recycling"],
+                "poly": ["Plastic Waste", "Blue Bin", "Recycle it"],
+                "bottle": ["Plastic Waste", "Blue Bin", "Clean, dry, and send for recycling"],
+                "paper": ["Paper Waste", "Blue Bin", "Flatten and send for paper recycling"],
+                "card": ["Paper Waste", "Blue Bin", "Flatten box and place in paper bin"],
+                "glass": ["Glass Waste", "Glass Bin", "Rinse gently and deposit in glass bin"],
+                "metal": ["Metal Waste", "Blue Bin", "Rinse and send for metal recycling"],
+                "can": ["Metal Waste", "Blue Bin", "Rinse and send for metal recycling"],
+                "tin": ["Metal Waste", "Blue Bin", "Rinse and send for metal recycling"],
+                "battery": ["Hazardous Waste", "Red Bin", "Dispose safely at hazardous waste drop-off"],
+                "medicine": ["Hazardous Waste", "Red Bin", "Dispose safely"],
+                "bulb": ["Hazardous Waste", "Red Bin", "Wrap safely and deposit at toxic collection point"],
+                "phone": ["E-Waste", "E-Waste Bin", "Send to authorized E-Waste Center"],
+                "mobile": ["E-Waste", "E-Waste Bin", "Send to authorized E-Waste Center"],
+                "laptop": ["E-Waste", "E-Waste Bin", "Send to authorized E-Waste Center"],
+                "charger": ["E-Waste", "E-Waste Bin", "Send to authorized E-Waste Center"]
+            };
+            
+            for (const kw in generic_keywords) {
+                if (q.includes(kw)) {
+                    matched = generic_keywords[kw];
+                    break;
+                }
+            }
+        }
+
         if (matched) {
             renderSearchResult({
                 query: query,
@@ -220,7 +259,7 @@ function initSearchEngine() {
                 query: query,
                 category: "Unknown Waste",
                 bin: "General / Audit Bin",
-                instruction: "Item not found in database.",
+                instruction: "Item not found in standard classification database. Please check manual eco-sorting guidelines.",
                 found: false
             });
         }
@@ -263,7 +302,7 @@ function renderSearchResult(data) {
     let badgeClass = "bin-green";
     let iconClass = "fa-leaf";
 
-    if (data.category === "Organic Waste") {
+    if (data.category === "Organic Waste" || data.category === "Wet Waste") {
         badgeClass = "bin-green";
         iconClass = "fa-leaf";
     } else if (data.category === "Plastic Waste") {
@@ -275,6 +314,9 @@ function renderSearchResult(data) {
     } else if (data.category === "Glass Waste") {
         badgeClass = "bin-glass";
         iconClass = "fa-wine-bottle";
+    } else if (data.category === "Metal Waste") {
+        badgeClass = "bin-blue";
+        iconClass = "fa-can-food";
     } else if (data.category === "Hazardous Waste") {
         badgeClass = "bin-red";
         iconClass = "fa-biohazard";
