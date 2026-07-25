@@ -3,6 +3,12 @@
    Client Controller (Flask API + Embedded Fallback)
 ============================================ */
 
+if (window.__SMART_WASTE_INIT__) {
+    console.log("SmartWasteTracker script already initialized.");
+} else {
+    window.__SMART_WASTE_INIT__ = true;
+
+
 const local_waste_data = {
     "banana peel": ["Wet Waste", "Green Bin", "Compost it"],
     "apple": ["Organic Waste", "Green Bin", "Compost it"],
@@ -35,7 +41,7 @@ const local_waste_data = {
     "charger": ["E-Waste", "E-Waste Bin", "Send to E-Waste Center"]
 };
 
-document.addEventListener("DOMContentLoaded", function () {
+function startSmartWasteApp() {
     initTheme();
     initLeafParticles();
     initTypingEffect();
@@ -45,7 +51,13 @@ document.addEventListener("DOMContentLoaded", function () {
     initCalculators();
     initSimulators();
     initCodeModalCopy();
-});
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startSmartWasteApp);
+} else {
+    startSmartWasteApp();
+}
 
 /* -------------------------------------------------------------
    1. Theme Toggle (Dark / Light Mode)
@@ -895,4 +907,6 @@ function initBackToTop() {
     topBtn.addEventListener("click", function () {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
+}
+
 }
