@@ -40,63 +40,6 @@ waste_data = {
     "charger": ("E-Waste", "E-Waste Bin", "Send to E-Waste Center"),
 }
 
-category_metadata = {
-    "Organic Waste": {
-        "bin": "Green Bin",
-        "badge_color": "success",
-        "gradient": "linear-gradient(135deg, #11998e, #38ef7d)",
-        "icon": "fa-leaf",
-        "description": "Biodegradable organic waste that can be converted into natural compost and biofuel.",
-        "examples": ["banana peel", "apple", "vegetable waste"],
-        "instruction": "Compost it or place in Green Bin"
-    },
-    "Plastic Waste": {
-        "bin": "Blue Bin",
-        "badge_color": "primary",
-        "gradient": "linear-gradient(135deg, #2193b0, #6dd5ed)",
-        "icon": "fa-bottle-water",
-        "description": "Non-biodegradable synthetic polymers that should be washed, compacted, and sent for recycling.",
-        "examples": ["plastic bottle", "milk packet", "plastic cover"],
-        "instruction": "Clean, dry, and put in Blue Bin for recycling"
-    },
-    "Paper Waste": {
-        "bin": "Blue Bin",
-        "badge_color": "info",
-        "gradient": "linear-gradient(135deg, #4b6cb7, #182848)",
-        "icon": "fa-newspaper",
-        "description": "Recyclable paper, cardboard, and wood pulp materials. Keep clean and dry for processing.",
-        "examples": ["newspaper", "paper", "cardboard"],
-        "instruction": "Flatten and place in Blue Bin"
-    },
-    "Glass Waste": {
-        "bin": "Glass Bin",
-        "badge_color": "teal",
-        "gradient": "linear-gradient(135deg, #00b4db, #0083b0)",
-        "icon": "fa-wine-bottle",
-        "description": "100% recyclable glass containers and jars that can be remelted indefinitely.",
-        "examples": ["glass bottle", "glass"],
-        "instruction": "Rinse gently and place in Glass Bin"
-    },
-    "Hazardous Waste": {
-        "bin": "Red Bin",
-        "badge_color": "danger",
-        "gradient": "linear-gradient(135deg, #cb2d3e, #ef473a)",
-        "icon": "fa-biohazard",
-        "description": "Toxic, chemical, or bio-hazardous waste requiring specialized sanitary disposal.",
-        "examples": ["battery", "medicine"],
-        "instruction": "Handle with care and dispose safely in Red Bin"
-    },
-    "E-Waste": {
-        "bin": "E-Waste Bin",
-        "badge_color": "warning",
-        "gradient": "linear-gradient(135deg, #f857a6, #ff5858)",
-        "icon": "fa-laptop",
-        "description": "Electronic equipment containing valuable metals and heavy toxins requiring specialized recycling.",
-        "examples": ["mobile", "laptop", "charger"],
-        "instruction": "Send to authorized E-Waste Collection Center"
-    }
-}
-
 def classify_waste(query_text):
     query = (query_text or "").strip().lower()
     if not query:
