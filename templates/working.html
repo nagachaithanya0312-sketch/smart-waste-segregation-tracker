@@ -11,15 +11,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/css/animate.min.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <!-- Custom Style -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="static/css/style.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <style>
         .diagram-tab-btn {
             border-radius: 12px !important;
@@ -314,33 +315,39 @@
                 </svg>
             </div>
         </div>
-    <!-- ON-PAGE PYTHON SOURCE CODE & TECHNICAL EXPLANATION SECTION -->
-    <section class="container my-5" id="pythonCodeSection">
-        <div class="glass-panel p-4 p-md-5">
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
-                <div>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold mb-2">
-                        <i class="fa-brands fa-python me-1"></i> Python Mini Project Code
-                    </span>
-                    <h3 class="fw-bold mb-0">
-                        <i class="fa-solid fa-code text-emerald me-2"></i> Python Source Code &amp; Technical Explanation
-                    </h3>
+        <!-- ON-PAGE PYTHON SOURCE CODE & TECHNICAL EXPLANATION SECTION -->
+        <section class="container my-5" id="pythonCodeSection">
+            <div class="glass-panel p-4 p-md-5">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+                    <div>
+                        <span
+                            class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold mb-2">
+                            <i class="fa-brands fa-python me-1"></i> Python Mini Project Code
+                        </span>
+                        <h3 class="fw-bold mb-0">
+                            <i class="fa-solid fa-code text-emerald me-2"></i> Python Source Code &amp; Technical
+                            Explanation
+                        </h3>
+                    </div>
+                    <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-2 fw-bold"
+                        id="copyPythonCodeBtn">
+                        <i class="fa-solid fa-copy me-1"></i> Copy Python Code
+                    </button>
                 </div>
-                <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-2 fw-bold" id="copyPythonCodeBtn">
-                    <i class="fa-solid fa-copy me-1"></i> Copy Python Code
-                </button>
-            </div>
 
-            <div class="row g-4 align-items-stretch">
-                <!-- Left Column: Python Source Code -->
-                <div class="col-lg-6">
-                    <div class="code-column-wrapper h-100 d-flex flex-column">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="text-secondary small fw-bold"><i class="fa-solid fa-terminal me-1"></i> CLI Implementation Script</span>
-                            <span class="badge bg-dark text-success font-monospace">Python 3</span>
-                        </div>
-                        <div class="position-relative flex-grow-1 bg-dark rounded-4 p-3 border border-secondary border-opacity-25 shadow-sm" style="min-height: 480px;">
-                            <pre class="m-0 text-light font-monospace small" id="pythonCodeBlockOnPage" style="max-height: 540px; overflow-y: auto; white-space: pre-wrap; font-family: 'Fira Code', 'Cascadia Code', Consolas, Monaco, monospace; line-height: 1.5;"><code># ============================================
+                <div class="row g-4 align-items-stretch">
+                    <!-- Left Column: Python Source Code -->
+                    <div class="col-lg-6">
+                        <div class="code-column-wrapper h-100 d-flex flex-column">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-secondary small fw-bold"><i class="fa-solid fa-terminal me-1"></i> CLI
+                                    Implementation Script</span>
+                                <span class="badge bg-dark text-success font-monospace">Python 3</span>
+                            </div>
+                            <div class="position-relative flex-grow-1 bg-dark rounded-4 p-3 border border-secondary border-opacity-25 shadow-sm"
+                                style="min-height: 480px;">
+                                <pre class="m-0 text-light font-monospace small" id="pythonCodeBlockOnPage"
+                                    style="max-height: 540px; overflow-y: auto; white-space: pre-wrap; font-family: 'Fira Code', 'Cascadia Code', Consolas, Monaco, monospace; line-height: 1.5;"><code># ============================================
 # SMART WASTE SEGREGATION TRACKER
 # Mini Project
 # Language: Python
@@ -402,137 +409,165 @@ while True:
     if choice != "yes":
         print("\nThank you for using Smart Waste Segregation Tracker.")
         break</code></pre>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Right Column: Code Explanation -->
-                <div class="col-lg-6">
-                    <div class="explanation-column-wrapper h-100 d-flex flex-column">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="text-secondary small fw-bold"><i class="fa-solid fa-lightbulb me-1"></i> Line-by-Line Logic Breakdown</span>
-                            <span class="badge bg-info-subtle text-info fw-bold">Step-by-Step</span>
-                        </div>
-                        <div class="explanation-scroll-container flex-grow-1 pe-2" style="max-height: 540px; overflow-y: auto;">
-                            
-                            <!-- Overview Card -->
-                            <div class="glass-card p-3 mb-3 border-start border-4 border-emerald">
-                                <h6 class="fw-bold text-emerald mb-1"><i class="fa-solid fa-circle-info me-2"></i>Project Overview</h6>
-                                <p class="small text-secondary mb-0">
-                                    This Python script is a standalone command-line application designed for smart waste classification. It operates using an in-memory dictionary data structure and bidirectional keyword matching without requiring external database dependencies.
-                                </p>
+                    <!-- Right Column: Code Explanation -->
+                    <div class="col-lg-6">
+                        <div class="explanation-column-wrapper h-100 d-flex flex-column">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-secondary small fw-bold"><i class="fa-solid fa-lightbulb me-1"></i>
+                                    Line-by-Line Logic Breakdown</span>
+                                <span class="badge bg-info-subtle text-info fw-bold">Step-by-Step</span>
                             </div>
+                            <div class="explanation-scroll-container flex-grow-1 pe-2"
+                                style="max-height: 540px; overflow-y: auto;">
 
-                            <!-- Step 1 Explanation -->
-                            <div class="glass-card p-3 mb-3">
-                                <div class="d-flex align-items-center gap-2 mb-2">
-                                    <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">1</span>
-                                    <h6 class="fw-bold mb-0">Waste Database Dictionary (`waste_data`)</h6>
+                                <!-- Overview Card -->
+                                <div class="glass-card p-3 mb-3 border-start border-4 border-emerald">
+                                    <h6 class="fw-bold text-emerald mb-1"><i
+                                            class="fa-solid fa-circle-info me-2"></i>Project Overview</h6>
+                                    <p class="small text-secondary mb-0">
+                                        This Python script is a standalone command-line application designed for smart
+                                        waste classification. It operates using an in-memory dictionary data structure
+                                        and bidirectional keyword matching without requiring external database
+                                        dependencies.
+                                    </p>
                                 </div>
-                                <p class="small text-secondary mb-2">
-                                    Stores waste items mapped to 3-element tuples containing classification details:
-                                </p>
-                                <ul class="small text-secondary mb-0 ps-3">
-                                    <li><b>Waste Category</b>: Organic, Plastic, Paper, Glass, Hazardous, or E-Waste.</li>
-                                    <li><b>Dustbin</b>: Target bin color (Green, Blue, Red, Glass, E-Waste Bin).</li>
-                                    <li><b>Instruction</b>: Actionable guidance (Compost, Recycle, Send to E-Waste Center).</li>
-                                </ul>
+
+                                <!-- Step 1 Explanation -->
+                                <div class="glass-card p-3 mb-3">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="badge bg-emerald text-white rounded-circle p-2"
+                                            style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">1</span>
+                                        <h6 class="fw-bold mb-0">Waste Database Dictionary (`waste_data`)</h6>
+                                    </div>
+                                    <p class="small text-secondary mb-2">
+                                        Stores waste items mapped to 3-element tuples containing classification details:
+                                    </p>
+                                    <ul class="small text-secondary mb-0 ps-3">
+                                        <li><b>Waste Category</b>: Organic, Plastic, Paper, Glass, Hazardous, or
+                                            E-Waste.</li>
+                                        <li><b>Dustbin</b>: Target bin color (Green, Blue, Red, Glass, E-Waste Bin).
+                                        </li>
+                                        <li><b>Instruction</b>: Actionable guidance (Compost, Recycle, Send to E-Waste
+                                            Center).</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Step 2 Explanation -->
+                                <div class="glass-card p-3 mb-3">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="badge bg-emerald text-white rounded-circle p-2"
+                                            style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">2</span>
+                                        <h6 class="fw-bold mb-0">Formatted Header Banner</h6>
+                                    </div>
+                                    <p class="small text-secondary mb-0">
+                                        Uses <code>print("=" * 50)</code> to create visual separator lines and print a
+                                        clear title banner for console presentations.
+                                    </p>
+                                </div>
+
+                                <!-- Step 3 Explanation -->
+                                <div class="glass-card p-3 mb-3">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="badge bg-emerald text-white rounded-circle p-2"
+                                            style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">3</span>
+                                        <h6 class="fw-bold mb-0">Interactive Loop (`while True`) &amp; Input Cleaning
+                                        </h6>
+                                    </div>
+                                    <p class="small text-secondary mb-0">
+                                        Runs an infinite loop accepting user queries. The input string is normalized
+                                        using <code>.lower().strip()</code> to make input matching case-insensitive and
+                                        trim extra spaces.
+                                    </p>
+                                </div>
+
+                                <!-- Step 4 Explanation -->
+                                <div class="glass-card p-3 mb-3">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="badge bg-emerald text-white rounded-circle p-2"
+                                            style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">4</span>
+                                        <h6 class="fw-bold mb-0">Simple NLP Keyword Matching Loop</h6>
+                                    </div>
+                                    <p class="small text-secondary mb-2">
+                                        Iterates over database keys checking substring presence in both directions:
+                                    </p>
+                                    <div class="bg-dark text-success p-2 rounded small font-monospace mb-2">
+                                        if key in item or item in key:
+                                    </div>
+                                    <p class="small text-secondary mb-0">
+                                        Matches user entries like <i>"used plastic bottle"</i> or <i>"paper"</i>
+                                        accurately, unpacks tuple values, displays results, and breaks the loop.
+                                    </p>
+                                </div>
+
+                                <!-- Step 5 Explanation -->
+                                <div class="glass-card p-3 mb-3">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="badge bg-emerald text-white rounded-circle p-2"
+                                            style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">5</span>
+                                        <h6 class="fw-bold mb-0">Fallback Handling (`if not found`)</h6>
+                                    </div>
+                                    <p class="small text-secondary mb-0">
+                                        If an item is not in the database, notifies the user and suggests referring to
+                                        local municipal waste disposal rules.
+                                    </p>
+                                </div>
+
+                                <!-- Step 6 Explanation -->
+                                <div class="glass-card p-3">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="badge bg-emerald text-white rounded-circle p-2"
+                                            style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">6</span>
+                                        <h6 class="fw-bold mb-0">Continuation Check &amp; Exit</h6>
+                                    </div>
+                                    <p class="small text-secondary mb-0">
+                                        Asks <code>Do you want to check another item? (yes/no)</code>. If response is
+                                        not <code>"yes"</code>, prints an exit message and breaks out of the loop.
+                                    </p>
+                                </div>
+
                             </div>
-
-                            <!-- Step 2 Explanation -->
-                            <div class="glass-card p-3 mb-3">
-                                <div class="d-flex align-items-center gap-2 mb-2">
-                                    <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">2</span>
-                                    <h6 class="fw-bold mb-0">Formatted Header Banner</h6>
-                                </div>
-                                <p class="small text-secondary mb-0">
-                                    Uses <code>print("=" * 50)</code> to create visual separator lines and print a clear title banner for console presentations.
-                                </p>
-                            </div>
-
-                            <!-- Step 3 Explanation -->
-                            <div class="glass-card p-3 mb-3">
-                                <div class="d-flex align-items-center gap-2 mb-2">
-                                    <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">3</span>
-                                    <h6 class="fw-bold mb-0">Interactive Loop (`while True`) &amp; Input Cleaning</h6>
-                                </div>
-                                <p class="small text-secondary mb-0">
-                                    Runs an infinite loop accepting user queries. The input string is normalized using <code>.lower().strip()</code> to make input matching case-insensitive and trim extra spaces.
-                                </p>
-                            </div>
-
-                            <!-- Step 4 Explanation -->
-                            <div class="glass-card p-3 mb-3">
-                                <div class="d-flex align-items-center gap-2 mb-2">
-                                    <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">4</span>
-                                    <h6 class="fw-bold mb-0">Simple NLP Keyword Matching Loop</h6>
-                                </div>
-                                <p class="small text-secondary mb-2">
-                                    Iterates over database keys checking substring presence in both directions:
-                                </p>
-                                <div class="bg-dark text-success p-2 rounded small font-monospace mb-2">
-                                    if key in item or item in key:
-                                </div>
-                                <p class="small text-secondary mb-0">
-                                    Matches user entries like <i>"used plastic bottle"</i> or <i>"paper"</i> accurately, unpacks tuple values, displays results, and breaks the loop.
-                                </p>
-                            </div>
-
-                            <!-- Step 5 Explanation -->
-                            <div class="glass-card p-3 mb-3">
-                                <div class="d-flex align-items-center gap-2 mb-2">
-                                    <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">5</span>
-                                    <h6 class="fw-bold mb-0">Fallback Handling (`if not found`)</h6>
-                                </div>
-                                <p class="small text-secondary mb-0">
-                                    If an item is not in the database, notifies the user and suggests referring to local municipal waste disposal rules.
-                                </p>
-                            </div>
-
-                            <!-- Step 6 Explanation -->
-                            <div class="glass-card p-3">
-                                <div class="d-flex align-items-center gap-2 mb-2">
-                                    <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">6</span>
-                                    <h6 class="fw-bold mb-0">Continuation Check &amp; Exit</h6>
-                                </div>
-                                <p class="small text-secondary mb-0">
-                                    Asks <code>Do you want to check another item? (yes/no)</code>. If response is not <code>"yes"</code>, prints an exit message and breaks out of the loop.
-                                </p>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- PYTHON CODE MODAL -->
-    <div class="modal fade" id="pythonCodeModal" tabindex="-1" aria-labelledby="pythonCodeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content glass-panel border-0 text-start shadow-lg">
-                <div class="modal-header border-bottom border-glass pb-3">
-                    <h5 class="modal-title fw-bold text-success d-flex align-items-center gap-2" id="pythonCodeModalLabel">
-                        <i class="fa-brands fa-python text-emerald fs-4"></i>
-                        <span>Smart Waste Segregation Tracker &mdash; Python Code & Explanation</span>
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-3 p-md-4">
-                    <div class="row g-4">
-                        <!-- Left Column: Code -->
-                        <div class="col-lg-6">
-                            <div class="code-column-wrapper h-100 d-flex flex-column">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold">
-                                        <i class="fa-solid fa-code me-1"></i> Python Code (CLI Mini Project)
-                                    </span>
-                                    <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold" id="copyPythonCodeBtn">
-                                        <i class="fa-solid fa-copy me-1"></i> Copy Code
-                                    </button>
-                                </div>
-                                <div class="position-relative flex-grow-1 bg-dark rounded-4 p-3 border border-secondary border-opacity-25 shadow-sm" style="min-height: 460px;">
-                                    <pre class="m-0 text-light font-monospace small" id="pythonCodeBlock" style="max-height: 520px; overflow-y: auto; white-space: pre-wrap; font-family: 'Fira Code', 'Cascadia Code', Consolas, Monaco, monospace; line-height: 1.5;"><code># ============================================
+        <!-- PYTHON CODE MODAL -->
+        <div class="modal fade" id="pythonCodeModal" tabindex="-1" aria-labelledby="pythonCodeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content glass-panel border-0 text-start shadow-lg">
+                    <div class="modal-header border-bottom border-glass pb-3">
+                        <h5 class="modal-title fw-bold text-success d-flex align-items-center gap-2"
+                            id="pythonCodeModalLabel">
+                            <i class="fa-brands fa-python text-emerald fs-4"></i>
+                            <span>Smart Waste Segregation Tracker &mdash; Python Code & Explanation</span>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-3 p-md-4">
+                        <div class="row g-4">
+                            <!-- Left Column: Code -->
+                            <div class="col-lg-6">
+                                <div class="code-column-wrapper h-100 d-flex flex-column">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <span
+                                            class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold">
+                                            <i class="fa-solid fa-code me-1"></i> Python Code (CLI Mini Project)
+                                        </span>
+                                        <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold"
+                                            id="copyPythonCodeBtn">
+                                            <i class="fa-solid fa-copy me-1"></i> Copy Code
+                                        </button>
+                                    </div>
+                                    <div class="position-relative flex-grow-1 bg-dark rounded-4 p-3 border border-secondary border-opacity-25 shadow-sm"
+                                        style="min-height: 460px;">
+                                        <pre class="m-0 text-light font-monospace small" id="pythonCodeBlock"
+                                            style="max-height: 520px; overflow-y: auto; white-space: pre-wrap; font-family: 'Fira Code', 'Cascadia Code', Consolas, Monaco, monospace; line-height: 1.5;"><code># ============================================
 # SMART WASTE SEGREGATION TRACKER
 # Mini Project
 # Language: Python
@@ -594,128 +629,155 @@ while True:
     if choice != "yes":
         print("\nThank you for using Smart Waste Segregation Tracker.")
         break</code></pre>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Right Column: Code Explanation -->
-                        <div class="col-lg-6">
-                            <div class="explanation-column-wrapper h-100 d-flex flex-column">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-pill fw-bold">
-                                        <i class="fa-solid fa-lightbulb me-1"></i> Technical Explanation
-                                    </span>
-                                </div>
-                                <div class="explanation-scroll-container flex-grow-1 pe-2" style="max-height: 520px; overflow-y: auto;">
-                                    
-                                    <!-- Overview Card -->
-                                    <div class="glass-card p-3 mb-3 border-start border-4 border-emerald">
-                                        <h6 class="fw-bold text-emerald mb-1"><i class="fa-solid fa-circle-info me-2"></i>Project Overview</h6>
-                                        <p class="small text-secondary mb-0">
-                                            This Python script is a standalone command-line application designed for smart waste classification. It operates using an in-memory dictionary data structure and bidirectional keyword matching without requiring external database dependencies.
-                                        </p>
+                            <!-- Right Column: Code Explanation -->
+                            <div class="col-lg-6">
+                                <div class="explanation-column-wrapper h-100 d-flex flex-column">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <span
+                                            class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-pill fw-bold">
+                                            <i class="fa-solid fa-lightbulb me-1"></i> Technical Explanation
+                                        </span>
                                     </div>
+                                    <div class="explanation-scroll-container flex-grow-1 pe-2"
+                                        style="max-height: 520px; overflow-y: auto;">
 
-                                    <!-- Step 1 Explanation -->
-                                    <div class="glass-card p-3 mb-3">
-                                        <div class="d-flex align-items-center gap-2 mb-2">
-                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">1</span>
-                                            <h6 class="fw-bold mb-0">Waste Database Dictionary (`waste_data`)</h6>
+                                        <!-- Overview Card -->
+                                        <div class="glass-card p-3 mb-3 border-start border-4 border-emerald">
+                                            <h6 class="fw-bold text-emerald mb-1"><i
+                                                    class="fa-solid fa-circle-info me-2"></i>Project Overview</h6>
+                                            <p class="small text-secondary mb-0">
+                                                This Python script is a standalone command-line application designed for
+                                                smart waste classification. It operates using an in-memory dictionary
+                                                data structure and bidirectional keyword matching without requiring
+                                                external database dependencies.
+                                            </p>
                                         </div>
-                                        <p class="small text-secondary mb-2">
-                                            Stores waste items mapped to 3-element tuples containing classification details:
-                                        </p>
-                                        <ul class="small text-secondary mb-0 ps-3">
-                                            <li><b>Waste Category</b>: Organic, Plastic, Paper, Glass, Hazardous, or E-Waste.</li>
-                                            <li><b>Dustbin</b>: Target bin color (Green, Blue, Red, Glass, E-Waste Bin).</li>
-                                            <li><b>Instruction</b>: Actionable guidance (Compost, Recycle, Send to E-Waste Center).</li>
-                                        </ul>
+
+                                        <!-- Step 1 Explanation -->
+                                        <div class="glass-card p-3 mb-3">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <span class="badge bg-emerald text-white rounded-circle p-2"
+                                                    style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">1</span>
+                                                <h6 class="fw-bold mb-0">Waste Database Dictionary (`waste_data`)</h6>
+                                            </div>
+                                            <p class="small text-secondary mb-2">
+                                                Stores waste items mapped to 3-element tuples containing classification
+                                                details:
+                                            </p>
+                                            <ul class="small text-secondary mb-0 ps-3">
+                                                <li><b>Waste Category</b>: Organic, Plastic, Paper, Glass, Hazardous, or
+                                                    E-Waste.</li>
+                                                <li><b>Dustbin</b>: Target bin color (Green, Blue, Red, Glass, E-Waste
+                                                    Bin).</li>
+                                                <li><b>Instruction</b>: Actionable guidance (Compost, Recycle, Send to
+                                                    E-Waste Center).</li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Step 2 Explanation -->
+                                        <div class="glass-card p-3 mb-3">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <span class="badge bg-emerald text-white rounded-circle p-2"
+                                                    style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">2</span>
+                                                <h6 class="fw-bold mb-0">Formatted Header Banner</h6>
+                                            </div>
+                                            <p class="small text-secondary mb-0">
+                                                Uses <code>print("=" * 50)</code> to create visual separator lines and
+                                                print a clear title banner for console presentations.
+                                            </p>
+                                        </div>
+
+                                        <!-- Step 3 Explanation -->
+                                        <div class="glass-card p-3 mb-3">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <span class="badge bg-emerald text-white rounded-circle p-2"
+                                                    style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">3</span>
+                                                <h6 class="fw-bold mb-0">Interactive Loop (`while True`) & Input
+                                                    Cleaning</h6>
+                                            </div>
+                                            <p class="small text-secondary mb-0">
+                                                Runs an infinite loop accepting user queries. The input string is
+                                                normalized using <code>.lower().strip()</code> to make input matching
+                                                case-insensitive and trim extra spaces.
+                                            </p>
+                                        </div>
+
+                                        <!-- Step 4 Explanation -->
+                                        <div class="glass-card p-3 mb-3">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <span class="badge bg-emerald text-white rounded-circle p-2"
+                                                    style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">4</span>
+                                                <h6 class="fw-bold mb-0">Simple NLP Keyword Matching Loop</h6>
+                                            </div>
+                                            <p class="small text-secondary mb-2">
+                                                Iterates over database keys checking substring presence in both
+                                                directions:
+                                            </p>
+                                            <div class="bg-dark text-success p-2 rounded small font-monospace mb-2">
+                                                if key in item or item in key:
+                                            </div>
+                                            <p class="small text-secondary mb-0">
+                                                Matches user entries like <i>"used plastic bottle"</i> or <i>"paper"</i>
+                                                accurately, unpacks tuple values, displays results, and breaks the loop.
+                                            </p>
+                                        </div>
+
+                                        <!-- Step 5 Explanation -->
+                                        <div class="glass-card p-3 mb-3">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <span class="badge bg-emerald text-white rounded-circle p-2"
+                                                    style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">5</span>
+                                                <h6 class="fw-bold mb-0">Fallback Handling (`if not found`)</h6>
+                                            </div>
+                                            <p class="small text-secondary mb-0">
+                                                If an item is not in the database, notifies the user and suggests
+                                                referring to local municipal waste disposal rules.
+                                            </p>
+                                        </div>
+
+                                        <!-- Step 6 Explanation -->
+                                        <div class="glass-card p-3">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <span class="badge bg-emerald text-white rounded-circle p-2"
+                                                    style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">6</span>
+                                                <h6 class="fw-bold mb-0">Continuation Check & Exit</h6>
+                                            </div>
+                                            <p class="small text-secondary mb-0">
+                                                Asks <code>Do you want to check another item? (yes/no)</code>. If
+                                                response is not <code>"yes"</code>, prints a exit message and breaks out
+                                                of the loop.
+                                            </p>
+                                        </div>
+
                                     </div>
-
-                                    <!-- Step 2 Explanation -->
-                                    <div class="glass-card p-3 mb-3">
-                                        <div class="d-flex align-items-center gap-2 mb-2">
-                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">2</span>
-                                            <h6 class="fw-bold mb-0">Formatted Header Banner</h6>
-                                        </div>
-                                        <p class="small text-secondary mb-0">
-                                            Uses <code>print("=" * 50)</code> to create visual separator lines and print a clear title banner for console presentations.
-                                        </p>
-                                    </div>
-
-                                    <!-- Step 3 Explanation -->
-                                    <div class="glass-card p-3 mb-3">
-                                        <div class="d-flex align-items-center gap-2 mb-2">
-                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">3</span>
-                                            <h6 class="fw-bold mb-0">Interactive Loop (`while True`) & Input Cleaning</h6>
-                                        </div>
-                                        <p class="small text-secondary mb-0">
-                                            Runs an infinite loop accepting user queries. The input string is normalized using <code>.lower().strip()</code> to make input matching case-insensitive and trim extra spaces.
-                                        </p>
-                                    </div>
-
-                                    <!-- Step 4 Explanation -->
-                                    <div class="glass-card p-3 mb-3">
-                                        <div class="d-flex align-items-center gap-2 mb-2">
-                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">4</span>
-                                            <h6 class="fw-bold mb-0">Simple NLP Keyword Matching Loop</h6>
-                                        </div>
-                                        <p class="small text-secondary mb-2">
-                                            Iterates over database keys checking substring presence in both directions:
-                                        </p>
-                                        <div class="bg-dark text-success p-2 rounded small font-monospace mb-2">
-                                            if key in item or item in key:
-                                        </div>
-                                        <p class="small text-secondary mb-0">
-                                            Matches user entries like <i>"used plastic bottle"</i> or <i>"paper"</i> accurately, unpacks tuple values, displays results, and breaks the loop.
-                                        </p>
-                                    </div>
-
-                                    <!-- Step 5 Explanation -->
-                                    <div class="glass-card p-3 mb-3">
-                                        <div class="d-flex align-items-center gap-2 mb-2">
-                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">5</span>
-                                            <h6 class="fw-bold mb-0">Fallback Handling (`if not found`)</h6>
-                                        </div>
-                                        <p class="small text-secondary mb-0">
-                                            If an item is not in the database, notifies the user and suggests referring to local municipal waste disposal rules.
-                                        </p>
-                                    </div>
-
-                                    <!-- Step 6 Explanation -->
-                                    <div class="glass-card p-3">
-                                        <div class="d-flex align-items-center gap-2 mb-2">
-                                            <span class="badge bg-emerald text-white rounded-circle p-2" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">6</span>
-                                            <h6 class="fw-bold mb-0">Continuation Check & Exit</h6>
-                                        </div>
-                                        <p class="small text-secondary mb-0">
-                                            Asks <code>Do you want to check another item? (yes/no)</code>. If response is not <code>"yes"</code>, prints a exit message and breaks out of the loop.
-                                        </p>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer border-top border-glass pt-3">
-                    <span class="me-auto text-muted small"><i class="fa-solid fa-code text-success me-1"></i> Python 3.8+ CLI Mini Project | Dual Code & Technical Breakdown</span>
-                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-footer border-top border-glass pt-3">
+                        <span class="me-auto text-muted small"><i class="fa-solid fa-code text-success me-1"></i> Python
+                            3.8+ CLI Mini Project | Dual Code & Technical Breakdown</span>
+                        <button type="button" class="btn btn-secondary rounded-pill px-4"
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center text-secondary small">
-            <p class="mb-0">© 2026 Smart Waste Segregation Tracker - Academic Mini Project</p>
-        </div>
-    </footer>
+        <!-- Footer -->
+        <footer>
+            <div class="container text-center text-secondary small">
+                <p class="mb-0">© 2026 Smart Waste Segregation Tracker - Academic Mini Project</p>
+            </div>
+        </footer>
 
-    <button class="back-to-top" id="backToTopBtn"><i class="fa-solid fa-arrow-up"></i></button>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <button class="back-to-top" id="backToTopBtn"><i class="fa-solid fa-arrow-up"></i></button>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>

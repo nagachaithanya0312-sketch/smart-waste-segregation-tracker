@@ -10,7 +10,7 @@ clean_head_template = '''    <!-- Vendor & Font CSS (Offline & GitHub Pages Read
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <!-- Custom Style -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">'''
+    <link rel="stylesheet" href="{{ url_for('static', filename='./css/style.css') }}">'''
 
 clean_js_template = '''    <!-- Vendor JS -->
     <script src="{{ url_for('static', filename='vendor/js/bootstrap.bundle.min.js') }}"></script>
@@ -42,7 +42,7 @@ for f in files:
                 new_lines.append(clean_head_template)
                 continue
             if in_head_css:
-                if "<!-- Custom Style -->" in line or "css/style.css" in line:
+                if "<!-- Custom Style -->" in line or "./css/style.css" in line:
                     in_head_css = False
                 continue
             
