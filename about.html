@@ -10,9 +10,9 @@
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Vendor & Font CSS (Offline & GitHub Pages Ready) -->
-    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
-    <link rel="stylesheet" href="vendor/css/all.min.css">
-    <link rel="stylesheet" href="vendor/css/animate.min.css">
+    <link rel="stylesheet" href="./vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./vendor/css/all.min.css">
+    <link rel="stylesheet" href="./vendor/css/animate.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -20,46 +20,45 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Custom Style -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="./static/css/style.css">
+    <!-- Bulletproof CSS Links (Offline & GitHub Pages Ready) -->
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./static/css/style.css">
 </head>
 
 <body>
 
     <div class="bg-particles" id="bgParticles"></div>
 
-    <!-- Navigation Bar (2-Row Layout) -->
-    <nav class="navbar navbar-expand-lg navbar-custom flex-column">
-        <!-- ROW 1: Centered Logo & Theme Toggle -->
-        <div class="container justify-content-center position-relative nav-top-row">
-            <a class="navbar-brand text-center" href="index.html">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
                 <i class="fa-solid fa-recycle"></i> SmartWaste Tracker
             </a>
-            <div class="position-absolute end-0 me-3 d-flex align-items-center gap-2">
-                <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
-                    <i class="fa-solid fa-moon"></i>
-                </button>
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </div>
-
-        <!-- ROW 2: Neat Navigation Menu with Icons -->
-        <div class="container justify-content-center">
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav mx-auto align-items-center gap-1 gap-lg-2">
-                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="working.html"><i class="fa-solid fa-diagram-project"></i> Working & Diagrams</a></li>
-                    <li class="nav-item"><a class="nav-link" href="working.html#projectDemo"><i class="fa-solid fa-circle-play text-danger"></i> Project Demonstration</a></li>
-                    <li class="nav-item"><a class="nav-link" href="applications.html"><i class="fa-solid fa-city"></i> Applications</a></li>
-                    <li class="nav-item"><a class="nav-link" href="future.html"><i class="fa-solid fa-rocket"></i> Future Scope</a></li>
-                    <li class="nav-item"><a class="nav-link" href="conclusion.html"><i class="fa-solid fa-circle-check"></i> Conclusion</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="about.html"><i class="fa-solid fa-circle-info"></i> About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="working.html#pythonCodeSection"><i class="fa-brands fa-python text-success"></i> Python Code</a></li>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fa-solid fa-house"></i>
+                            Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="working.html"><i
+                                class="fa-solid fa-diagram-project"></i> Working & Diagrams</a></li>
+                    <li class="nav-item"><a class="nav-link" href="applications.html"><i class="fa-solid fa-city"></i>
+                            Applications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="future.html"><i class="fa-solid fa-rocket"></i>
+                            Future Scope</a></li>
+                    <li class="nav-item"><a class="nav-link" href="conclusion.html"><i
+                                class="fa-solid fa-circle-check"></i> Conclusion</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="about.html"><i
+                                class="fa-solid fa-circle-info"></i> About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="working.html#pythonCodeSection"><i
+                                class="fa-brands fa-python text-success me-1"></i> Python Code</a></li>
+                    <li class="nav-item ms-lg-2">
+                        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -508,8 +507,10 @@ while True:
     </footer>
 
     <button class="back-to-top" id="backToTopBtn"><i class="fa-solid fa-arrow-up"></i></button>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="./vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./static/js/script.js"></script>
 </body>
 
 </html>
