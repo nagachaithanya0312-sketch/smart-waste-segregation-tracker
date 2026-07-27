@@ -31,36 +31,35 @@
 
     <div class="bg-particles" id="bgParticles"></div>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-custom">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url_for('home') }}">
+    <!-- Navigation Bar (2-Row Layout) -->
+    <nav class="navbar navbar-expand-lg navbar-custom flex-column">
+        <!-- ROW 1: Centered Logo & Theme Toggle -->
+        <div class="container justify-content-center position-relative nav-top-row">
+            <a class="navbar-brand text-center" href="{{ url_for('home') }}">
                 <i class="fa-solid fa-recycle"></i> SmartWaste Tracker
             </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center gap-2">
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}"><i
-                                class="fa-solid fa-house"></i> Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('working') }}"><i
-                                class="fa-solid fa-diagram-project"></i> Working & Diagrams</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('applications') }}"><i
-                                class="fa-solid fa-city"></i> Applications</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('future') }}"><i
-                                class="fa-solid fa-rocket"></i> Future Scope</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('conclusion') }}"><i
-                                class="fa-solid fa-circle-check"></i> Conclusion</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('about') }}"><i
-                                class="fa-solid fa-circle-info"></i> About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('working') }}#pythonCodeSection"><i
-                                class="fa-brands fa-python text-success me-1"></i> Python Code</a></li>
-                    <li class="nav-item ms-lg-2">
-                        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme">
-                            <i class="fa-solid fa-moon"></i>
-                        </button>
-                    </li>
+            <div class="position-absolute end-0 me-3 d-flex align-items-center gap-2">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ROW 2: Neat Navigation Menu with Icons -->
+        <div class="container justify-content-center">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav mx-auto align-items-center gap-1 gap-lg-2">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('working') }}"><i class="fa-solid fa-diagram-project"></i> Working & Diagrams</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('working') }}#projectDemo"><i class="fa-solid fa-circle-play text-danger"></i> Project Demonstration</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('applications') }}"><i class="fa-solid fa-city"></i> Applications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('future') }}"><i class="fa-solid fa-rocket"></i> Future Scope</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('conclusion') }}"><i class="fa-solid fa-circle-check"></i> Conclusion</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('about') }}"><i class="fa-solid fa-circle-info"></i> About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('working') }}#pythonCodeSection"><i class="fa-brands fa-python text-success"></i> Python Code</a></li>
                 </ul>
             </div>
         </div>
