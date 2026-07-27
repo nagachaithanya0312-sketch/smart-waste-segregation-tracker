@@ -1,912 +1,686 @@
-/* ============================================
-   SMART WASTE SEGREGATION TRACKER
-   Client Controller (Flask API + Embedded Fallback)
-============================================ */
+/* ============================================================
+   SMART WASTE SEGREGATION TRACKER — Premium Controller v2.0
+   ============================================================ */
 
-if (window.__SMART_WASTE_INIT__) {
-    console.log("SmartWasteTracker script already initialized.");
-} else {
-    window.__SMART_WASTE_INIT__ = true;
+(() => {
+  'use strict';
+
+  /* ─── DOM Cache ─── */
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+
+  /* ─── Constants ─── */
+  const TYPING_STRINGS = [
+    'Classify Waste Intelligently',
+    'Promote Recycling Awareness',
+    'Powered by NLP & AI',
+    'Reduce, Reuse, Recycle ♻',
+    'Smart Waste Management',
+    'Eco Friendly Technology 🌿',
+  ];
+
+  const LEAF_EMOJIS = ['🍃', '🌿', '🍂', '🌱', '☘️', '🌾'];
+
+  /* ═══════════════════════════════════════════════════════════
+     1. LOADING SCREEN
+     ═══════════════════════════════════════════════════════════ */
+  function initLoader() {
+    const screen = $('#loadingScreen');
+    const bar = $('#loadingBarFill');
+    if (!screen) return;
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 15 + 5;
+      if (progress > 100) progress = 100;
+      if (bar) bar.style.width = progress + '%';
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          screen.classList.add('hidden');
+          document.body.style.overflow = '';
+          initAOS();
+          initGSAP();
+        }, 400);
+      }
+    }, 120);
+
+    document.body.style.overflow = 'hidden';
+  }
 
 
-const local_waste_data = {
-    "banana peel": ["Wet Waste", "Green Bin", "Compost it"],
-    "apple": ["Organic Waste", "Green Bin", "Compost it"],
-    "vegetable waste": ["Organic Waste", "Green Bin", "Compost it"],
-    "food waste": ["Wet Waste", "Green Bin", "Compost or place in organic bin"],
-    "food": ["Wet Waste", "Green Bin", "Compost or place in organic bin"],
+  /* ═══════════════════════════════════════════════════════════
+     2. THEME TOGGLE (Dark / Light)
+     ═══════════════════════════════════════════════════════════ */
+  function initTheme() {
+    const btn = $('#themeToggle');
+    if (!btn) return;
 
-    "plastic bottle": ["Plastic Waste", "Blue Bin", "Clean, dry, and send for recycling"],
-    "milk packet": ["Plastic Waste", "Blue Bin", "Recycle it"],
-    "plastic cover": ["Plastic Waste", "Blue Bin", "Recycle it"],
+    const saved = localStorage.getItem('swt_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    updateThemeIcon(btn, saved);
 
-    "newspaper": ["Paper Waste", "Blue Bin", "Flatten and send for paper recycling"],
-    "paper": ["Paper Waste", "Blue Bin", "Recycle it"],
-    "cardboard": ["Paper Waste", "Blue Bin", "Flatten box and place in paper bin"],
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('swt_theme', next);
+      updateThemeIcon(btn, next);
+      showToast(next === 'dark' ? '🌙 Dark Mode' : '☀️ Light Mode');
+    });
+  }
 
-    "glass bottle": ["Glass Waste", "Glass Bin", "Rinse gently and deposit in glass bin"],
-    "glass": ["Glass Waste", "Glass Bin", "Recycle it"],
+  function updateThemeIcon(btn, theme) {
+    const icon = btn.querySelector('i');
+    if (!icon) return;
+    icon.className = theme === 'dark'
+      ? 'fa-solid fa-sun'
+      : 'fa-solid fa-moon';
+  }
 
-    "metal can": ["Metal Waste", "Blue Bin", "Rinse and send for metal recycling"],
-    "can": ["Metal Waste", "Blue Bin", "Rinse and send for metal recycling"],
 
-    "battery": ["Hazardous Waste", "Red Bin", "Dispose safely at hazardous waste drop-off"],
-    "medicine": ["Hazardous Waste", "Red Bin", "Dispose safely"],
-    "light bulb": ["Hazardous Waste", "Red Bin", "Wrap safely and deposit at toxic collection point"],
-    "bulb": ["Hazardous Waste", "Red Bin", "Wrap safely and deposit at toxic collection point"],
+  /* ═══════════════════════════════════════════════════════════
+     3. NAVIGATION
+     ═══════════════════════════════════════════════════════════ */
+  function initNavbar() {
+    const navbar = $('#navbar');
+    const hamburger = $('#hamburger');
+    const mobileMenu = $('#mobileMenu');
+    const mobileOverlay = $('#mobileOverlay');
+    const navLinks = $$('.nav-link');
+    const mobileLinks = $$('.mobile-link');
 
-    "mobile phone": ["E-Waste", "E-Waste Bin", "Send to authorized E-Waste recycling center"],
-    "mobile": ["E-Waste", "E-Waste Bin", "Send to authorized E-Waste Center"],
-    "laptop": ["E-Waste", "E-Waste Bin", "Send to E-Waste Center"],
-    "charger": ["E-Waste", "E-Waste Bin", "Send to E-Waste Center"]
-};
+    /* Scroll state */
+    function onScroll() {
+      if (!navbar) return;
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
 
-function startSmartWasteApp() {
-    initTheme();
-    initLeafParticles();
-    initTypingEffect();
-    initSearchEngine();
-    initStatsCounters();
-    initBackToTop();
-    initCalculators();
-    initSimulators();
-    initCodeModalCopy();
-}
-
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", startSmartWasteApp);
-} else {
-    startSmartWasteApp();
-}
-
-/* -------------------------------------------------------------
-   1. Theme Toggle (Dark / Light Mode)
-------------------------------------------------------------- */
-function initTheme() {
-    const themeBtn = document.getElementById("themeToggleBtn");
-    const storedTheme = localStorage.getItem("waste_tracker_theme") || "light";
-
-    document.documentElement.setAttribute("data-theme", storedTheme);
-
-    if (themeBtn) {
-        updateThemeIcon(themeBtn, storedTheme);
-        themeBtn.addEventListener("click", function () {
-            const currentTheme = document.documentElement.getAttribute("data-theme");
-            const newTheme = currentTheme === "dark" ? "light" : "dark";
-            
-            document.documentElement.setAttribute("data-theme", newTheme);
-            localStorage.setItem("waste_tracker_theme", newTheme);
-            updateThemeIcon(themeBtn, newTheme);
-            showToast(newTheme === "dark" ? "🌙 Dark Mode Enabled" : "☀️ Light Mode Enabled");
-        });
+      /* Active section highlight */
+      const sections = $$('section[id]');
+      let current = '';
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 120;
+        if (window.scrollY >= top) current = sec.id;
+      });
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('data-section') === current);
+      });
+      mobileLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('data-section') === current);
+      });
     }
-}
 
-function updateThemeIcon(btn, theme) {
-    const icon = btn.querySelector("i");
-    if (icon) {
-        if (theme === "dark") {
-            icon.className = "fa-solid fa-sun text-warning";
-        } else {
-            icon.className = "fa-solid fa-moon text-primary";
-        }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    /* Mobile toggle */
+    function toggleMobile(open) {
+      if (hamburger) hamburger.classList.toggle('active', open);
+      if (mobileMenu) mobileMenu.classList.toggle('active', open);
+      if (mobileOverlay) mobileOverlay.classList.toggle('active', open);
+      document.body.style.overflow = open ? 'hidden' : '';
     }
-}
 
-/* -------------------------------------------------------------
-   2. Background Leaf & Recycle Particles
-------------------------------------------------------------- */
-function initLeafParticles() {
-    const container = document.getElementById("bgParticles");
+    if (hamburger) hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu && mobileMenu.classList.contains('active');
+      toggleMobile(!isOpen);
+    });
+
+    if (mobileOverlay) mobileOverlay.addEventListener('click', () => toggleMobile(false));
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => toggleMobile(false));
+    });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     4. SCROLL PROGRESS BAR
+     ═══════════════════════════════════════════════════════════ */
+  function initScrollProgress() {
+    const bar = $('#scrollProgress');
+    if (!bar) return;
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+      bar.style.width = pct + '%';
+    }, { passive: true });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     5. CURSOR GLOW
+     ═══════════════════════════════════════════════════════════ */
+  function initCursorGlow() {
+    const glow = $('#cursorGlow');
+    if (!glow || window.matchMedia('(max-width: 768px)').matches) return;
+
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+    });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     6. FLOATING LEAF PARTICLES
+     ═══════════════════════════════════════════════════════════ */
+  function initLeafParticles() {
+    const container = $('#bgParticles');
     if (!container) return;
 
-    const icons = ["fa-leaf", "fa-seedling", "fa-recycle", "fa-tree", "fa-clover"];
-    const particleCount = 18;
+    function createLeaf() {
+      const leaf = document.createElement('span');
+      leaf.className = 'leaf-particle';
+      leaf.textContent = LEAF_EMOJIS[Math.floor(Math.random() * LEAF_EMOJIS.length)];
+      leaf.style.left = Math.random() * 100 + '%';
+      leaf.style.fontSize = (Math.random() * 1 + 0.8) + 'rem';
+      leaf.style.animationDuration = (Math.random() * 15 + 10) + 's';
+      leaf.style.animationDelay = (Math.random() * 5) + 's';
+      container.appendChild(leaf);
 
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement("i");
-        const randomIcon = icons[Math.floor(Math.random() * icons.length)];
-        
-        particle.className = `fa-solid ${randomIcon} particle`;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.animationDuration = `${12 + Math.random() * 14}s`;
-        particle.style.animationDelay = `${Math.random() * 8}s`;
-        particle.style.fontSize = `${0.9 + Math.random() * 1.4}rem`;
-
-        container.appendChild(particle);
+      setTimeout(() => leaf.remove(), 25000);
     }
-}
 
-/* -------------------------------------------------------------
-   3. Hero Typing Effect
-------------------------------------------------------------- */
-function initTypingEffect() {
-    const textElement = document.getElementById("typingText");
-    if (!textElement) return;
+    // Start with a few
+    for (let i = 0; i < 8; i++) {
+      setTimeout(createLeaf, i * 600);
+    }
 
-    const phrases = [
-        "AI Inspired Waste Classification System",
-        "Python Flask Backend (No DB Required)",
-        "Smart Dustbin Color Guidance Engine",
-        "Instant Recycling & Disposal Recommendations"
-    ];
+    // Continue adding
+    setInterval(createLeaf, 3000);
+  }
 
-    let phraseIndex = 0;
+
+  /* ═══════════════════════════════════════════════════════════
+     7. TYPING EFFECT
+     ═══════════════════════════════════════════════════════════ */
+  function initTypingEffect() {
+    const el = $('#typingText');
+    if (!el) return;
+
+    let stringIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
 
     function type() {
-        const currentPhrase = phrases[phraseIndex];
+      const current = TYPING_STRINGS[stringIndex];
+      if (isDeleting) {
+        el.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        el.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+      }
 
-        if (isDeleting) {
-            textElement.textContent = currentPhrase.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            textElement.textContent = currentPhrase.substring(0, charIndex + 1);
-            charIndex++;
-        }
+      let speed = isDeleting ? 30 : 60;
 
-        let typeSpeed = isDeleting ? 40 : 80;
+      if (!isDeleting && charIndex === current.length) {
+        speed = 2000;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        stringIndex = (stringIndex + 1) % TYPING_STRINGS.length;
+        speed = 300;
+      }
 
-        if (!isDeleting && charIndex === currentPhrase.length) {
-            typeSpeed = 2200;
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            phraseIndex = (phraseIndex + 1) % phrases.length;
-            typeSpeed = 400;
-        }
-
-        setTimeout(type, typeSpeed);
+      setTimeout(type, speed);
     }
 
     type();
-}
+  }
 
-/* -------------------------------------------------------------
-   4. Flask API & Fallback Waste Search Engine
-------------------------------------------------------------- */
-function initSearchEngine() {
-    const searchInput = document.getElementById("wasteSearchInput");
-    const searchBtn = document.getElementById("wasteSearchBtn");
-    const resultCard = document.getElementById("searchResultCard");
 
-    if (!searchInput || !resultCard) return;
-
-    function performSearch(query) {
-        if (!query.trim()) {
-            showToast("⚠️ Please enter a waste item to classify.");
-            return;
-        }
-
-        // Auto-detect static web hosting (GitHub Pages or local file:// protocol)
-        const isStaticHost = window.location.hostname.includes("github.io") || window.location.protocol === "file:";
-
-        if (isStaticHost) {
-            executeLocalSearch(query);
-            return;
-        }
-
-        fetch("/api/search", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ item: query })
-        })
-        .then(res => {
-            if (!res.ok) throw new Error("HTTP " + res.status);
-            return res.json();
-        })
-        .then(data => {
-            if (data && data.found) {
-                renderSearchResult(data);
-            } else {
-                executeLocalSearch(query);
-            }
-        })
-        .catch(err => {
-            executeLocalSearch(query);
-        });
-    }
-
-    function executeLocalSearch(query) {
-        const q = query.trim().toLowerCase();
-        
-        // 1. Exact Match
-        let matched = local_waste_data[q];
-        
-        // 2. Substring Match
-        if (!matched) {
-            for (const k in local_waste_data) {
-                if (k.includes(q) || q.includes(k)) {
-                    matched = local_waste_data[k];
-                    break;
-                }
-            }
-        }
-        
-        // 3. Generic Keyword Fallback (Identical to Python Backend)
-        if (!matched) {
-            const generic_keywords = {
-                "organic": ["Organic Waste", "Green Bin", "Compost it"],
-                "wet": ["Wet Waste", "Green Bin", "Compost or place in organic bin"],
-                "food": ["Wet Waste", "Green Bin", "Compost or place in organic bin"],
-                "fruit": ["Organic Waste", "Green Bin", "Compost it"],
-                "peel": ["Organic Waste", "Green Bin", "Compost it"],
-                "plastic": ["Plastic Waste", "Blue Bin", "Clean, dry, and send for recycling"],
-                "poly": ["Plastic Waste", "Blue Bin", "Recycle it"],
-                "bottle": ["Plastic Waste", "Blue Bin", "Clean, dry, and send for recycling"],
-                "paper": ["Paper Waste", "Blue Bin", "Flatten and send for paper recycling"],
-                "card": ["Paper Waste", "Blue Bin", "Flatten box and place in paper bin"],
-                "glass": ["Glass Waste", "Glass Bin", "Rinse gently and deposit in glass bin"],
-                "metal": ["Metal Waste", "Blue Bin", "Rinse and send for metal recycling"],
-                "can": ["Metal Waste", "Blue Bin", "Rinse and send for metal recycling"],
-                "tin": ["Metal Waste", "Blue Bin", "Rinse and send for metal recycling"],
-                "battery": ["Hazardous Waste", "Red Bin", "Dispose safely at hazardous waste drop-off"],
-                "medicine": ["Hazardous Waste", "Red Bin", "Dispose safely"],
-                "bulb": ["Hazardous Waste", "Red Bin", "Wrap safely and deposit at toxic collection point"],
-                "phone": ["E-Waste", "E-Waste Bin", "Send to authorized E-Waste Center"],
-                "mobile": ["E-Waste", "E-Waste Bin", "Send to authorized E-Waste Center"],
-                "laptop": ["E-Waste", "E-Waste Bin", "Send to authorized E-Waste Center"],
-                "charger": ["E-Waste", "E-Waste Bin", "Send to authorized E-Waste Center"]
-            };
-            
-            for (const kw in generic_keywords) {
-                if (q.includes(kw)) {
-                    matched = generic_keywords[kw];
-                    break;
-                }
-            }
-        }
-
-        if (matched) {
-            renderSearchResult({
-                query: query,
-                category: matched[0],
-                bin: matched[1],
-                instruction: matched[2],
-                found: true
-            });
-        } else {
-            renderSearchResult({
-                query: query,
-                category: "Unknown Waste",
-                bin: "General / Audit Bin",
-                instruction: "Item not found in standard classification database. Please check manual eco-sorting guidelines.",
-                found: false
-            });
-        }
-    }
-
-    if (searchBtn) {
-        searchBtn.addEventListener("click", () => performSearch(searchInput.value));
-    }
-
-    searchInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            performSearch(searchInput.value);
-        }
-    });
-
-    document.querySelectorAll(".tag-btn").forEach(btn => {
-        btn.addEventListener("click", function () {
-            const item = this.dataset.item || this.innerText;
-            searchInput.value = item;
-            performSearch(item);
-        });
-    });
-}
-
-function renderSearchResult(data) {
-    const resultCard = document.getElementById("searchResultCard");
-    const resQuery = document.getElementById("resQuery");
-    const resCategory = document.getElementById("resCategory");
-    const resBinBadge = document.getElementById("resBinBadge");
-    const resInstruction = document.getElementById("resInstruction");
-    const resIcon = document.getElementById("resIcon");
-    const unknownAlert = document.getElementById("unknownAlert");
-
-    if (!resultCard) return;
-
-    resQuery.innerText = data.query;
-    resCategory.innerText = data.category;
-    resInstruction.innerText = data.instruction;
-
-    let badgeClass = "bin-green";
-    let iconClass = "fa-leaf";
-
-    if (data.category === "Organic Waste" || data.category === "Wet Waste") {
-        badgeClass = "bin-green";
-        iconClass = "fa-leaf";
-    } else if (data.category === "Plastic Waste") {
-        badgeClass = "bin-blue";
-        iconClass = "fa-bottle-water";
-    } else if (data.category === "Paper Waste") {
-        badgeClass = "bin-blue";
-        iconClass = "fa-newspaper";
-    } else if (data.category === "Glass Waste") {
-        badgeClass = "bin-glass";
-        iconClass = "fa-wine-bottle";
-    } else if (data.category === "Metal Waste") {
-        badgeClass = "bin-blue";
-        iconClass = "fa-can-food";
-    } else if (data.category === "Hazardous Waste") {
-        badgeClass = "bin-red";
-        iconClass = "fa-biohazard";
-    } else if (data.category === "E-Waste") {
-        badgeClass = "bin-ewaste";
-        iconClass = "fa-laptop";
-    } else {
-        badgeClass = "bin-unknown";
-        iconClass = "fa-triangle-exclamation";
-    }
-
-    resBinBadge.className = `bin-badge ${badgeClass}`;
-    resBinBadge.innerHTML = `<i class="fa-solid ${iconClass}"></i> ${data.bin}`;
-    resIcon.className = `fa-solid ${iconClass} display-4 text-emerald`;
-
-    if (!data.found && unknownAlert) {
-        unknownAlert.classList.remove("d-none");
-    } else if (unknownAlert) {
-        unknownAlert.classList.add("d-none");
-    }
-
-    resultCard.style.display = "block";
-    resultCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
-}
-
-/* -------------------------------------------------------------
-   5. Animated Statistics Counters
-------------------------------------------------------------- */
-function initStatsCounters() {
-    const counters = document.querySelectorAll(".counter-value");
+  /* ═══════════════════════════════════════════════════════════
+     8. STATISTICS COUNTER ANIMATION
+     ═══════════════════════════════════════════════════════════ */
+  function initCounters() {
+    const counters = $$('.stat-number');
     if (!counters.length) return;
 
-    let animated = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
 
-    function startCounters() {
-        if (animated) return;
-        counters.forEach(counter => {
-            const target = parseInt(counter.dataset.target, 10) || 0;
-            let current = 0;
-            const step = Math.max(1, Math.floor(target / 60));
+    counters.forEach(c => observer.observe(c));
+  }
 
-            const timer = setInterval(() => {
-                current += step;
-                if (current >= target) {
-                    counter.innerText = target.toLocaleString();
-                    clearInterval(timer);
-                } else {
-                    counter.innerText = current.toLocaleString();
-                }
-            }, 25);
-        });
-        animated = true;
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const duration = 2000;
+    const start = performance.now();
+
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const value = Math.round(target * ease);
+      el.textContent = value + suffix;
+      if (progress < 1) requestAnimationFrame(update);
     }
 
-    window.addEventListener("scroll", () => {
-        const statsSection = document.getElementById("statsSection");
-        if (statsSection) {
-            const rect = statsSection.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom >= 0) {
-                startCounters();
-            }
-        }
+    requestAnimationFrame(update);
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     9. AOS INITIALIZATION
+     ═══════════════════════════════════════════════════════════ */
+  function initAOS() {
+    if (typeof AOS !== 'undefined') {
+      AOS.init({
+        duration: 800,
+        easing: 'ease-out-cubic',
+        once: true,
+        offset: 60,
+        disable: false,
+      });
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     10. GSAP ANIMATIONS
+     ═══════════════════════════════════════════════════════════ */
+  function initGSAP() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* Parallax hero blobs */
+    gsap.utils.toArray('.hero-blob').forEach((blob, i) => {
+      gsap.to(blob, {
+        y: -80 * (i + 1),
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1,
+        },
+      });
     });
 
-    setTimeout(startCounters, 800);
-}
-
-/* -------------------------------------------------------------
-   6. Interactive Carbon Footprint Calculator
-------------------------------------------------------------- */
-function initCalculators() {
-    const kgInput = document.getElementById("wasteKgInput");
-    const kgDisplay = document.getElementById("wasteKgDisplay");
-    const co2Saved = document.getElementById("co2SavedRes");
-    const treesSaved = document.getElementById("treesSavedRes");
-    const energySaved = document.getElementById("energySavedRes");
-
-    if (!kgInput) return;
-
-    function updateCalc() {
-        const kg = parseFloat(kgInput.value) || 0;
-        if (kgDisplay) kgDisplay.innerText = kg;
-
-        const co2 = (kg * 2.5).toFixed(1);
-        const trees = (kg * 0.04).toFixed(2);
-        const energy = (kg * 3.8).toFixed(1);
-
-        if (co2Saved) co2Saved.innerText = `${co2} kg`;
-        if (treesSaved) treesSaved.innerText = `${trees} Trees`;
-        if (energySaved) energySaved.innerText = `${energy} kWh`;
-    }
-
-    kgInput.addEventListener("input", updateCalc);
-    updateCalc();
-}
-
-/* -------------------------------------------------------------
-   7. AI Camera & Voice Simulators
-------------------------------------------------------------- */
-
-/**
- * PREDEFINED WASTE DATASET (10 Items Required)
- * Used by both Camera Vision Simulator & Voice Assistant Engine
- */
-const predefinedWasteDataset = [
-    {
-        name: "Plastic Bottle",
-        icon: "fa-bottle-water",
-        category: "Plastic Waste",
-        bin: "Blue Bin",
-        binBadgeClass: "badge-bin-blue",
-        recommendation: "Clean, dry, and send for recycling.",
-        keywords: ["plastic bottle", "bottle", "plastic", "బాటిల్", "బోతల్", "प्लास्टिक की बोतल", "बोतल", "botella", "bouteille"]
-    },
-    {
-        name: "Banana Peel",
-        icon: "fa-leaf",
-        category: "Wet Waste",
-        bin: "Green Bin",
-        binBadgeClass: "badge-bin-green",
-        recommendation: "Compost this waste.",
-        keywords: ["banana peel", "banana", "peel", "అరటి", "అరటిపండు", "కేలా", "केला", "केले का छिलका", "platano", "banane"]
-    },
-    {
-        name: "Newspaper",
-        icon: "fa-newspaper",
-        category: "Paper Waste",
-        bin: "Blue Bin",
-        binBadgeClass: "badge-bin-blue",
-        recommendation: "Flatten and send for paper recycling.",
-        keywords: ["newspaper", "paper", "news", "పేపర్", "వార్తాపత్రిక", "अखबार", "समाचार पत्र", "periodico", "journal", "papier"]
-    },
-    {
-        name: "Glass Bottle",
-        icon: "fa-wine-bottle",
-        category: "Glass Waste",
-        bin: "Glass Bin",
-        binBadgeClass: "badge-bin-glass",
-        recommendation: "Rinse gently and deposit in glass collection bin.",
-        keywords: ["glass bottle", "glass", "గాజు", "గాజు సీసా", "कांच की बोतल", "कांच", "vidrio", "verre"]
-    },
-    {
-        name: "Metal Can",
-        icon: "fa-can-food",
-        category: "Metal Waste",
-        bin: "Blue Bin",
-        binBadgeClass: "badge-bin-blue",
-        recommendation: "Rinse and send for metal scrap recycling.",
-        keywords: ["metal can", "can", "tin", "metal", "డబ్బా", "టిన్", "केन", "धातु", "lata", "canette"]
-    },
-    {
-        name: "Battery",
-        icon: "fa-battery-full",
-        category: "Hazardous Waste",
-        bin: "Red Bin",
-        binBadgeClass: "badge-bin-red",
-        recommendation: "Dispose safely at hazardous waste drop-off.",
-        keywords: ["battery", "cell", "బ్యాటరీ", "बैटरी", "pila", "bateria", "pile"]
-    },
-    {
-        name: "Mobile Phone",
-        icon: "fa-mobile-screen",
-        category: "E-Waste",
-        bin: "E-Waste Bin",
-        binBadgeClass: "badge-bin-ewaste",
-        recommendation: "Send to authorized E-Waste Recycling Center.",
-        keywords: ["mobile phone", "mobile", "phone", "smartphone", "మొబైల్", "ఫోన్", "मोबाइल", "फोन", "movil", "telefono", "portable"]
-    },
-    {
-        name: "Food Waste",
-        icon: "fa-utensils",
-        category: "Wet Waste",
-        bin: "Green Bin",
-        binBadgeClass: "badge-bin-green",
-        recommendation: "Compost or place in organic waste bin.",
-        keywords: ["food waste", "food", "leftover", "అన్నం", "ఆహారం", "भोजन", "खाना", "comida", "nourriture"]
-    },
-    {
-        name: "Cardboard",
-        icon: "fa-box-archive",
-        category: "Paper Waste",
-        bin: "Blue Bin",
-        binBadgeClass: "badge-bin-blue",
-        recommendation: "Flatten box and place in paper bin.",
-        keywords: ["cardboard", "box", "అట్టపెట్టె", "कार्डबोर्ड", "गत्ता", "carton"]
-    },
-    {
-        name: "Light Bulb",
-        icon: "fa-lightbulb",
-        category: "Hazardous Waste",
-        bin: "Red Bin",
-        binBadgeClass: "badge-bin-red",
-        recommendation: "Wrap safely and deposit at toxic waste collection center.",
-        keywords: ["light bulb", "bulb", "lamp", "బల్బు", "లైట్", "बल्ब", "बिजली का बल्ब", "bombilla", "ampoule"]
-    }
-];
-
-/**
- * ARCHITECTURE FOR UPGRADING TO PRODUCTION AI MODELS:
- * 
- * 1. YOLOv8 (ONNX Web Runtime):
- *    const session = await ort.InferenceSession.create('./models/yolov8n.onnx');
- *    const tensor = preprocessCanvasToONNXTensor(cameraCanvas);
- *    const outputs = await session.run({ images: tensor });
- *    const detectedClass = parseYOLOBoundingBoxes(outputs);
- * 
- * 2. ResNet50 / TensorFlow.js:
- *    const model = await tf.loadLayersModel('https://storage.googleapis.com/.../resnet50/model.json');
- *    const tensor = tf.browser.fromPixels(videoElement).resizeNearestNeighbor([224, 224]).expandDims(0);
- *    const predictions = await model.predict(tensor).data();
- * 
- * 3. Google Gemini Vision API:
- *    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
- *        method: 'POST',
- *        headers: { 'Content-Type': 'application/json' },
- *        body: JSON.stringify({
- *            contents: [{ parts: [{ text: "Classify waste item in image into Wet, Plastic, Paper, Glass, Metal, E-Waste or Hazardous." }, { inline_data: { mime_type: "image/jpeg", data: base64Frame } }] }]
- *        })
- *    });
- */
-
-let speechRecognitionInstance = null;
-
-function initSimulators() {
-    initCameraVisionSimulator();
-    initVoiceRecognitionAssistant();
-}
-
-/* =============================================================
-   A. AI CAMERA VISION SIMULATOR LOGIC
-============================================================= */
-function initCameraVisionSimulator() {
-    const simCamBtn = document.getElementById("startCamSimBtn");
-    const camStatus = document.getElementById("camStatusText");
-    const camOverlay = document.getElementById("camOverlayBox");
-    const scannerLine = document.getElementById("camScannerLine");
-
-    if (!simCamBtn) return;
-
-    simCamBtn.addEventListener("click", function () {
-        // Disable button during scanning
-        simCamBtn.disabled = true;
-        simCamBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-1"></i> Scanning Frame...`;
-
-        if (camStatus) camStatus.innerText = "🔍 AI Neural Net Scanning Object Frame...";
-        if (scannerLine) scannerLine.classList.add("active");
-
-        if (camOverlay) {
-            camOverlay.innerHTML = `
-                <div class="py-3">
-                    <span class="badge bg-warning text-dark px-3 py-2 fs-6 rounded-pill animate__animated animate__pulse animate__infinite">
-                        <i class="fa-solid fa-expand fa-spin me-1"></i> Analyzing Neural Feature Maps...
-                    </span>
-                </div>
-            `;
-        }
-
-        // Simulate Neural Network inference delay (1.5 seconds)
-        setTimeout(() => {
-            // Select random waste object from predefined dataset
-            const randomIndex = Math.floor(Math.random() * predefinedWasteDataset.length);
-            const detectedItem = predefinedWasteDataset[randomIndex];
-            
-            // Random confidence score between 90.0% and 99.8%
-            const confidence = (90 + Math.random() * 9.8).toFixed(1);
-
-            // Remove laser scan animation
-            if (scannerLine) scannerLine.classList.remove("active");
-
-            // Render Output Results
-            if (camOverlay) {
-                camOverlay.innerHTML = `
-                    <div class="ai-output-box text-start my-2 animate__animated animate__fadeIn">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <h5 class="fw-bold mb-0 text-white"><i class="fa-solid ${detectedItem.icon} text-primary me-2"></i> ${detectedItem.name}</h5>
-                            <span class="badge bg-success rounded-pill px-2 py-1"><i class="fa-solid fa-shield-halved me-1"></i> ${confidence}% Confidence</span>
-                        </div>
-                        <div class="row g-2 text-dark mt-2">
-                            <div class="col-6">
-                                <div class="p-2 bg-glass-card rounded-3 border border-glass">
-                                    <small class="text-muted d-block fw-bold">Waste Category</small>
-                                    <span class="fw-bold text-emerald small"><i class="fa-solid fa-layer-group me-1"></i> ${detectedItem.category}</span>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-2 bg-glass-card rounded-3 border border-glass">
-                                    <small class="text-muted d-block fw-bold">Correct Bin</small>
-                                    <span class="badge ${detectedItem.binBadgeClass} small"><i class="fa-solid fa-dumpster me-1"></i> ${detectedItem.bin}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-2 p-2 rounded-3 bg-dark-subtle text-white small border border-secondary">
-                            <strong><i class="fa-solid fa-circle-info text-info me-1"></i> Recommendation:</strong> ${detectedItem.recommendation}
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (camStatus) camStatus.innerText = `✅ Classification Complete (${confidence}% Confidence)`;
-            
-            // Reset button state
-            simCamBtn.disabled = false;
-            simCamBtn.innerHTML = `<i class="fa-solid fa-aperture me-1"></i> Scan Next Object`;
-
-            showToast(`🤖 Camera Vision: Recognized ${detectedItem.name} (${confidence}%)`);
-        }, 1500);
+    /* Section headers stagger */
+    gsap.utils.toArray('.section-header').forEach(header => {
+      gsap.from(header, {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: header,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+      });
     });
-}
 
-/* =============================================================
-   B. AI VOICE RECOGNITION ASSISTANT LOGIC
-============================================================= */
-function initVoiceRecognitionAssistant() {
-    const startBtn = document.getElementById("startVoiceSimBtn");
-    const stopBtn = document.getElementById("stopVoiceSimBtn");
-    const langSelect = document.getElementById("voiceLangSelect");
-    const micContainer = document.getElementById("micPulseContainer");
-    const equalizer = document.getElementById("audioEqualizer");
-    const voiceOverlay = document.getElementById("voiceOverlayBox");
-    const voiceStatus = document.getElementById("voiceStatusText");
-    const micIcon = document.getElementById("micIconMain");
-
-    if (!startBtn) return;
-
-    // Check for browser Web Speech API support
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    function setListeningUI(listening) {
-        if (listening) {
-            if (micContainer) micContainer.classList.add("listening");
-            if (equalizer) equalizer.classList.add("active");
-            if (startBtn) startBtn.disabled = true;
-            if (stopBtn) stopBtn.disabled = false;
-            if (micIcon) micIcon.className = "fa-solid fa-microphone-lines text-white";
-            if (voiceStatus) voiceStatus.innerText = "Status: Listening... Speak waste item name";
-        } else {
-            if (micContainer) micContainer.classList.remove("listening");
-            if (equalizer) equalizer.classList.remove("active");
-            if (startBtn) startBtn.disabled = false;
-            if (stopBtn) stopBtn.disabled = true;
-            if (micIcon) micIcon.className = "fa-solid fa-microphone-lines";
-            if (voiceStatus) voiceStatus.innerText = "Status: Speech engine ready";
-        }
+    /* Stat cards stagger on scroll */
+    const statCards = gsap.utils.toArray('.stat-card');
+    if (statCards.length) {
+      gsap.from(statCards, {
+        y: 60,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.12,
+        scrollTrigger: {
+          trigger: '.stats-section',
+          start: 'top 80%',
+        },
+      });
     }
+  }
 
-    function processRecognizedText(transcript) {
-        setListeningUI(false);
 
-        const text = transcript.trim().toLowerCase();
-        let matchedItem = null;
+  /* ═══════════════════════════════════════════════════════════
+     11. RIPPLE BUTTON EFFECT
+     ═══════════════════════════════════════════════════════════ */
+  function initRipple() {
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.ripple');
+      if (!btn) return;
 
-        // Search dataset for matching keywords
-        for (const item of predefinedWasteDataset) {
-            for (const kw of item.keywords) {
-                if (text.includes(kw.toLowerCase()) || kw.toLowerCase().includes(text)) {
-                    matchedItem = item;
-                    break;
-                }
-            }
-            if (matchedItem) break;
-        }
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-        if (matchedItem) {
-            renderVoiceResult(matchedItem, transcript);
-            showToast(`🗣️ Voice Assistant: Recognized '${matchedItem.name}'`);
-        } else {
-            if (voiceOverlay) {
-                voiceOverlay.innerHTML = `
-                    <div class="ai-output-box text-start my-2 animate__animated animate__fadeIn border-warning">
-                        <div class="d-flex align-items-center gap-2 mb-2 text-warning">
-                            <i class="fa-solid fa-triangle-exclamation fs-4"></i>
-                            <h6 class="fw-bold mb-0">Unrecognized Item: "${transcript}"</h6>
-                        </div>
-                        <p class="text-secondary small mb-1">Could not match spoken item with our primary waste dataset.</p>
-                        <small class="text-muted">Try speaking items like: <em>Banana Peel, Plastic Bottle, Battery, Newspaper, Mobile Phone</em></small>
-                    </div>
-                `;
-            }
-            showToast(`⚠️ Voice input '${transcript}' not found in database.`);
-        }
-    }
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple-wave';
+      ripple.style.cssText = `
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.35);
+        width: 0; height: 0;
+        left: ${x}px; top: ${y}px;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        animation: rippleWave 0.6s ease-out forwards;
+      `;
 
-    function renderVoiceResult(item, originalTranscript) {
-        if (!voiceOverlay) return;
-        voiceOverlay.innerHTML = `
-            <div class="ai-output-box text-start my-2 animate__animated animate__fadeIn">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <h5 class="fw-bold mb-0 text-success"><i class="fa-solid ${item.icon} me-2"></i> ${item.name}</h5>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-1"><i class="fa-solid fa-microphone me-1"></i> Verified Speech</span>
-                </div>
-                <div class="mb-2 text-muted small">
-                    <i class="fa-solid fa-quote-left me-1"></i> User Said: <strong class="text-dark">"${originalTranscript}"</strong>
-                </div>
-                <div class="row g-2 mt-1">
-                    <div class="col-6">
-                        <div class="p-2 bg-glass-card rounded-3 border border-glass">
-                            <small class="text-muted d-block fw-bold">Category</small>
-                            <span class="fw-bold text-emerald small"><i class="fa-solid fa-layer-group me-1"></i> ${item.category}</span>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="p-2 bg-glass-card rounded-3 border border-glass">
-                            <small class="text-muted d-block fw-bold">Correct Bin</small>
-                            <span class="badge ${item.binBadgeClass} small"><i class="fa-solid fa-dumpster me-1"></i> ${item.bin}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-2 p-2 rounded-3 bg-success-subtle text-success-emphasis small border border-success-subtle">
-                    <strong><i class="fa-solid fa-check-circle me-1"></i> Recommendation:</strong> ${item.recommendation}
-                </div>
+      btn.style.position = 'relative';
+      btn.style.overflow = 'hidden';
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 700);
+    });
+
+    // Inject keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes rippleWave {
+        to { width: 500px; height: 500px; opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     12. 3D TILT EFFECT (Waste Cards)
+     ═══════════════════════════════════════════════════════════ */
+  function initTiltCards() {
+    if (window.matchMedia('(max-width: 768px)').matches) return;
+
+    $$('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -6;
+        const rotateY = ((x - centerX) / centerX) * 6;
+        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)';
+      });
+    });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     13. BACK TO TOP
+     ═══════════════════════════════════════════════════════════ */
+  function initBackToTop() {
+    const btn = $('#backToTop');
+    if (!btn) return;
+
+    window.addEventListener('scroll', () => {
+      btn.classList.toggle('visible', window.scrollY > 500);
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     14. CONTACT FORM
+     ═══════════════════════════════════════════════════════════ */
+  function initContactForm() {
+    const form = $('#contactForm');
+    if (!form) return;
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      showToast('✅ Message sent successfully!');
+      form.reset();
+    });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     15. GALLERY LIGHTBOX
+     ═══════════════════════════════════════════════════════════ */
+  function initGallery() {
+    const lightbox = $('#lightbox');
+    const content = $('#lightboxContent');
+    const closeBtn = $('#lightboxClose');
+    if (!lightbox || !content) return;
+
+    $$('.gallery-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const placeholder = item.querySelector('.gallery-placeholder');
+        if (placeholder) {
+          const icon = placeholder.querySelector('i');
+          const label = placeholder.querySelector('span');
+          content.innerHTML = `
+            <div style="text-align:center;">
+              <i class="${icon ? icon.className : ''}" style="font-size:5rem;margin-bottom:20px;color:var(--secondary);"></i>
+              <p style="font-size:1.5rem;font-weight:600;">${label ? label.textContent : ''}</p>
             </div>
-        `;
-    }
-
-    // Initialize Web Speech API if supported
-    if (SpeechRecognition) {
-        speechRecognitionInstance = new SpeechRecognition();
-        speechRecognitionInstance.continuous = false;
-        speechRecognitionInstance.interimResults = false;
-
-        speechRecognitionInstance.onstart = function () {
-            setListeningUI(true);
-            if (voiceOverlay) {
-                voiceOverlay.innerHTML = `
-                    <div class="py-2 text-success fw-bold animate__animated animate__pulse animate__infinite">
-                        <i class="fa-solid fa-microphone fa-beat-fade me-2"></i> Listening... Speak waste item name
-                    </div>
-                `;
-            }
-        };
-
-        speechRecognitionInstance.onresult = function (event) {
-            const transcript = event.results[0][0].transcript;
-            processRecognizedText(transcript);
-        };
-
-        speechRecognitionInstance.onerror = function (event) {
-            setListeningUI(false);
-            if (voiceOverlay) {
-                voiceOverlay.innerHTML = `
-                    <div class="p-2 text-danger small">
-                        <i class="fa-solid fa-circle-exclamation me-1"></i> Speech recognition error (${event.error}). Try sample chips below.
-                    </div>
-                `;
-            }
-            showToast("⚠️ Microphone access error or permission denied.");
-        };
-
-        speechRecognitionInstance.onend = function () {
-            setListeningUI(false);
-        };
-    }
-
-    // Start Listening Handler
-    startBtn.addEventListener("click", function () {
-        const selectedLang = langSelect ? langSelect.value : "en-US";
-
-        if (SpeechRecognition && speechRecognitionInstance) {
-            try {
-                speechRecognitionInstance.lang = selectedLang;
-                speechRecognitionInstance.start();
-            } catch (e) {
-                // If recognition is already active or fails, restart gracefully
-                speechRecognitionInstance.stop();
-                setListeningUI(true);
-            }
-        } else {
-            // Fallback Voice Simulation if Web Speech API is restricted/unsupported
-            setListeningUI(true);
-            if (voiceOverlay) {
-                voiceOverlay.innerHTML = `
-                    <div class="py-2 text-success fw-bold animate__animated animate__pulse animate__infinite">
-                        <i class="fa-solid fa-microphone fa-beat-fade me-2"></i> Simulated Speech Engine active...
-                    </div>
-                `;
-            }
-
-            setTimeout(() => {
-                const sampleItems = ["Banana Peel", "Plastic Bottle", "Battery", "Newspaper", "Mobile Phone"];
-                const randomSample = sampleItems[Math.floor(Math.random() * sampleItems.length)];
-                processRecognizedText(randomSample);
-            }, 2000);
+          `;
         }
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
     });
 
-    // Stop Listening Handler
-    if (stopBtn) {
-        stopBtn.addEventListener("click", function () {
-            if (SpeechRecognition && speechRecognitionInstance) {
-                try {
-                    speechRecognitionInstance.stop();
-                } catch (e) {}
-            }
-            setListeningUI(false);
-            if (voiceOverlay) {
-                voiceOverlay.innerHTML = `
-                    <h6 class="fw-bold mb-1">Voice Recognition Stopped</h6>
-                    <p class="text-secondary small mb-0">Click "Start Listening" to try again.</p>
-                `;
-            }
-        });
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
     }
 
-    // Sample Voice Query Chips Handler (Fallback / Interactive Testing)
-    document.querySelectorAll(".voice-sample-chip").forEach(chip => {
-        chip.addEventListener("click", function () {
-            const sampleName = this.dataset.sample || this.innerText;
-            setListeningUI(true);
-            if (voiceOverlay) {
-                voiceOverlay.innerHTML = `
-                    <div class="py-2 text-success fw-bold animate__animated animate__pulse">
-                        <i class="fa-solid fa-microphone me-2"></i> Voice Query: "${sampleName}"
-                    </div>
-                `;
-            }
-            setTimeout(() => {
-                processRecognizedText(sampleName);
-            }, 800);
-        });
+    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
     });
-}
 
-
-/* -------------------------------------------------------------
-   8. Python Code Copy Handler
-------------------------------------------------------------- */
-function initCodeModalCopy() {
-    const copyBtns = document.querySelectorAll("#copyPythonCodeBtn");
-    copyBtns.forEach(btn => {
-        btn.addEventListener("click", function () {
-            const codeBlock = document.getElementById("pythonCodeBlockOnPage") || document.getElementById("pythonCodeBlock");
-            if (codeBlock) {
-                navigator.clipboard.writeText(codeBlock.innerText).then(() => {
-                    showToast("📋 Python code copied to clipboard!");
-                });
-            }
-        });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
     });
-}
+  }
 
-/* -------------------------------------------------------------
-   9. Toast Notification Utility
-------------------------------------------------------------- */
-function showToast(msg) {
-    let toast = document.getElementById("customToast");
-    if (!toast) {
-        toast = document.createElement("div");
-        toast.id = "customToast";
-        toast.className = "toast-custom";
-        document.body.appendChild(toast);
+
+  /* ═══════════════════════════════════════════════════════════
+     16. SMOOTH SCROLL (for anchor links)
+     ═══════════════════════════════════════════════════════════ */
+  function initSmoothScroll() {
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      const id = link.getAttribute('href');
+      if (id === '#') return;
+      const target = $(id);
+      if (target) {
+        e.preventDefault();
+        const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     17. TOAST NOTIFICATION HELPER
+     ═══════════════════════════════════════════════════════════ */
+  function showToast(msg) {
+    const toast = $('#toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // Expose for global use
+  window.showToast = showToast;
+
+
+  /* ═══════════════════════════════════════════════════════════
+     18. PARALLAX FLOATING ICONS
+     ═══════════════════════════════════════════════════════════ */
+  function initParallaxIcons() {
+    if (window.matchMedia('(max-width: 768px)').matches) return;
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      $$('.float-icon').forEach((icon, i) => {
+        const speed = (i % 3 + 1) * 0.3;
+        icon.style.transform = `translateY(${scrollY * speed * -0.15}px)`;
+      });
+    }, { passive: true });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     19. ENHANCED GSAP SCROLL ANIMATIONS
+     ═══════════════════════════════════════════════════════════ */
+  function initEnhancedGSAP() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    // Stagger animate card grids on scroll
+    const grids = [
+      '.about-grid .about-card',
+      '.features-grid .feature-card',
+      '.waste-grid .waste-card',
+      '.future-grid .future-card',
+      '.team-grid .team-card',
+      '.tech-grid .tech-card'
+    ];
+
+    grids.forEach(selector => {
+      const items = gsap.utils.toArray(selector);
+      if (!items.length) return;
+      gsap.from(items, {
+        y: 50,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: items[0].parentElement,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+      });
+    });
+
+    // Advantages slide in alternating directions
+    const advItems = gsap.utils.toArray('.adv-item');
+    advItems.forEach((item, i) => {
+      gsap.from(item, {
+        x: i % 2 === 0 ? -60 : 60,
+        opacity: 0,
+        duration: 0.6,
+        scrollTrigger: {
+          trigger: item,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
+      });
+    });
+
+    // Flowchart nodes stagger
+    const flowNodes = gsap.utils.toArray('.flow-node, .flow-arrow');
+    if (flowNodes.length) {
+      gsap.from(flowNodes, {
+        scale: 0.8,
+        opacity: 0,
+        duration: 0.4,
+        stagger: 0.12,
+        ease: 'back.out(1.7)',
+        scrollTrigger: {
+          trigger: '.flowchart',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+      });
     }
+  }
 
-    toast.innerHTML = `<i class="fa-solid fa-bell text-success"></i> <span>${msg}</span>`;
-    toast.classList.add("show");
 
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 3200);
-}
+  /* ═══════════════════════════════════════════════════════════
+     20. MAGNETIC BUTTON HOVER (Desktop only)
+     ═══════════════════════════════════════════════════════════ */
+  function initMagneticButtons() {
+    if (window.matchMedia('(max-width: 768px)').matches) return;
 
-/* -------------------------------------------------------------
-   10. Back to Top Button
-------------------------------------------------------------- */
-function initBackToTop() {
-    const topBtn = document.getElementById("backToTopBtn");
-    if (!topBtn) return;
+    $$('.btn').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+      });
 
-    window.addEventListener("scroll", function () {
-        if (window.scrollY > 300) {
-            topBtn.classList.add("show");
-        } else {
-            topBtn.classList.remove("show");
-        }
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
     });
+  }
 
-    topBtn.addEventListener("click", function () {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-}
 
-}
+  /* ═══════════════════════════════════════════════════════════
+     21. SMART NAVBAR (Auto-hide on scroll down)
+     ═══════════════════════════════════════════════════════════ */
+  function initSmartNavbar() {
+    const navbar = $('#navbar');
+    if (!navbar) return;
+
+    let lastScroll = 0;
+    const threshold = 100;
+
+    window.addEventListener('scroll', () => {
+      const current = window.scrollY;
+      if (current <= threshold) {
+        navbar.style.transform = 'translateY(0)';
+        return;
+      }
+
+      if (current > lastScroll + 10) {
+        // Scrolling down — hide
+        navbar.style.transform = 'translateY(-100%)';
+      } else if (current < lastScroll - 5) {
+        // Scrolling up — show
+        navbar.style.transform = 'translateY(0)';
+      }
+      lastScroll = current;
+    }, { passive: true });
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     BOOTSTRAP EVERYTHING
+     ═══════════════════════════════════════════════════════════ */
+  function init() {
+    initLoader();
+    initTheme();
+    initNavbar();
+    initScrollProgress();
+    initCursorGlow();
+    initLeafParticles();
+    initTypingEffect();
+    initCounters();
+    initRipple();
+    initTiltCards();
+    initBackToTop();
+    initContactForm();
+    initGallery();
+    initSmoothScroll();
+    initParallaxIcons();
+    initMagneticButtons();
+    initSmartNavbar();
+    initEnhancedGSAP();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+
