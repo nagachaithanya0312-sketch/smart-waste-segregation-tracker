@@ -26,7 +26,7 @@
     <nav class="navbar navbar-expand-lg navbar-custom flex-column">
         <!-- ROW 1: Centered Logo & Theme Toggle -->
         <div class="container justify-content-center position-relative nav-top-row">
-            <a class="navbar-brand text-center" href="{{ url_for('home') }}">
+            <a class="navbar-brand text-center nav-logo" href="{{ url_for('home') }}">
                 <i class="fa-solid fa-recycle"></i> SmartWaste Tracker
             </a>
             <div class="position-absolute end-0 me-3 d-flex align-items-center gap-2">
@@ -524,7 +524,5 @@ while True:
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <script src="static/js/script.js"></script>
-    <script src="js/script.js"></script>
 </body>
 </html>
